@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InferRSI — Technical Deep-Dive Report</title>
+<style>
+  :root{
+    --ink:#16211f; --ink-soft:#47564f; --ink-faint:#6b7a72;
+    --paper:#f7f8f6; --card:#ffffff; --line:#e2e7e1;
+    --accent:#0f766e; --accent-soft:#e6f2ef; --accent-deep:#0b5a54;
+    --pass:#15803d; --pass-bg:#ecfdf3; --fail:#b42318; --fail-bg:#fef3f2;
+    --inc:#b45309; --inc-bg:#fffaeb; --note:#4338ca; --note-bg:#eef2ff;
+    --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.62;font-size:15.5px}
+  code,pre,.mono{font-family:var(--mono)}
+  code{font-size:.86em;background:#eef1ee;border:1px solid var(--line);border-radius:4px;padding:.08em .35em;white-space:nowrap}
+  pre{font-size:12.5px;line-height:1.55;background:#0e1a17;color:#d7e4df;border-radius:10px;padding:20px 22px;overflow-x:auto}
+  pre code{background:none;border:none;color:inherit;padding:0;white-space:pre}
+  a{color:var(--accent-deep);text-decoration:none;border-bottom:1px solid #bcd4cf}
+  a:hover{border-bottom-color:var(--accent-deep)}
+  h1,h2,h3,h4{line-height:1.25;font-weight:700;letter-spacing:-0.015em}
+  h2{font-size:24px;margin:0 0 14px;padding-bottom:10px;border-bottom:2px solid var(--line)}
+  h3{font-size:17.5px;margin:28px 0 10px;color:var(--accent-deep)}
+  h4{font-size:14.5px;margin:18px 0 6px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-faint)}
+  p{margin:0 0 12px}
+  ul,ol{margin:0 0 12px;padding-left:22px}
+  li{margin-bottom:5px}
+  section{padding:44px 0 8px}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+  .layout{display:grid;grid-template-columns:220px 1fr;gap:44px}
+  /* hero */
+  .hero{background:linear-gradient(160deg,#0b1f1b 0%,#123b34 60%,#0f766e 130%);color:#eef6f3;padding:58px 0 50px}
+  .hero h1{font-size:36px;color:#fff;margin:10px 0 8px}
+  .hero .tag{font-size:17px;color:#bfe3dc;max-width:840px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+  .chip{font-family:var(--mono);font-size:12px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);color:#e6f4f0;border-radius:999px;padding:4px 12px}
+  .kicker{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#8fd6c9}
+  /* toc */
+  nav.toc{position:sticky;top:20px;align-self:start;font-size:13px;max-height:calc(100vh - 40px);overflow:auto}
+  nav.toc .toc-title{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px}
+  nav.toc a{display:block;border:none;color:var(--ink-soft);padding:4px 10px;border-left:2px solid var(--line);border-radius:0}
+  nav.toc a:hover{color:var(--accent-deep);border-left-color:var(--accent)}
+  /* stat grid */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:22px 0}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .stat .n{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--accent-deep)}
+  .stat .l{font-size:12px;color:var(--ink-faint);margin-top:2px}
+  /* cards & callouts */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:16px 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .callout{border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;padding:14px 18px;margin:16px 0;font-size:14.5px}
+  .callout.note{border-color:var(--note);background:var(--note-bg)}
+  .callout.warn{border-color:var(--inc);background:var(--inc-bg)}
+  /* badges */
+  .badge{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;border-radius:5px;padding:2px 8px;vertical-align:1px}
+  .b-pass{background:var(--pass-bg);color:var(--pass);border:1px solid #b7e4c3}
+  .b-fail{background:var(--fail-bg);color:var(--fail);border:1px solid #f4c7c3}
+  .b-inc{background:var(--inc-bg);color:var(--inc);border:1px solid #f5d99a}
+  .b-plan{background:var(--note-bg);color:var(--note);border:1px solid #c3caF0}
+  .b-muted{background:#f1f3f1;color:var(--ink-faint);border:1px solid var(--line)}
+  /* tables */
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  th{background:#eef2ee;text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);padding:9px 12px;border-bottom:2px solid var(--line)}
+  td{padding:8px 12px;border-bottom:1px solid #edf0ec;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{text-align:right;font-family:var(--mono);white-space:nowrap}
+  td.mono,th.mono{font-family:var(--mono);font-size:12px}
+  /* bars */
+  .bar-row{display:grid;grid-template-columns:230px 1fr 110px;gap:10px;align-items:center;margin:7px 0;font-size:13px}
+  .bar-label{text-align:right;color:var(--ink-soft)}
+  .bar-track{background:#ecefeb;border-radius:5px;height:22px;position:relative;overflow:hidden}
+  .bar-fill{height:100%;border-radius:5px 0 0 5px;background:linear-gradient(90deg,#14b8a6,#0f766e)}
+  .bar-fill.base{background:#9db3ab}
+  .bar-fill.gold{background:linear-gradient(90deg,#f0b429,#d97706)}
+  .bar-val{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft)}
+  .bar-head{display:grid;grid-template-columns:230px 1fr 110px;gap:10px;font-size:11px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+  .bar-head :nth-child(3){text-align:right}
+  /* sias planes */
+  .planes{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:18px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+  .plane{padding:18px 20px;border-right:1px solid var(--line)}
+  .plane:last-child{border-right:none}
+  .plane h4{margin:0 0 2px;color:var(--accent-deep);text-transform:none;font-size:16px;letter-spacing:0}
+  .plane .loc{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);margin-bottom:10px}
+  .plane ul{padding-left:16px;font-size:13px;margin-bottom:10px}
+  .plane .owns{font-size:12px;color:var(--ink-faint);border-top:1px dashed var(--line);padding-top:8px}
+  .plane .owns b{color:var(--ink-soft)}
+  /* tree */
+  .tree{font-family:var(--mono);font-size:12.5px;line-height:1.7;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 20px;overflow-x:auto;color:var(--ink-soft)}
+  .tree b{color:var(--accent-deep)}
+  footer{margin-top:56px;border-top:2px solid var(--line);padding:26px 0 40px;font-size:12.5px;color:var(--ink-faint)}
+  .src-note{font-size:12px;color:var(--ink-faint);margin-top:4px}
+  .toc-top{display:none}
+  @media (max-width:960px){
+    .layout{grid-template-columns:1fr}
+    nav.toc{position:static;display:none}
+    .toc-top{display:block;margin-bottom:14px;font-size:13px;color:var(--ink-faint)}
+    .grid2,.grid3,.planes{grid-template-columns:1fr}
+    .bar-row{grid-template-columns:130px 1fr 90px}
+    .bar-head{grid-template-columns:130px 1fr 90px}
+    .hero h1{font-size:28px}
+  }
+  @media print{
+    .hero{background:#123b34}
+    nav.toc{display:none}
+    section{page-break-inside:avoid}
+    body{font-size:12px}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Technical Deep-Dive Report · Generated 2026-10-28</div>
+    <h1>InferRSI</h1>
+    <p class="tag">A CLI workbench for reproducible inference optimization with coding agents — measured A/B experiments, a strict evidence contract, and a source-grounded knowledge base. An engineering study of the repository, its architecture, its campaigns, and its claim discipline.</p>
+    <div class="chips">
+      <span class="chip">github.com/InferMatrixLab/InferRSI</span>
+      <span class="chip">Apache-2.0</span>
+      <span class="chip">Python 3.10+</span>
+      <span class="chip">zero runtime deps</span>
+      <span class="chip">main @ 608df33</span>
+      <span class="chip">v0.1.0-dev preview</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+
+<nav class="toc">
+  <div class="toc-title">Contents</div>
+  <a href="#summary">1 · Executive summary</a>
+  <a href="#identity">2 · Repository identity</a>
+  <a href="#loop">3 · The core idea</a>
+  <a href="#architecture">4 · Architecture (SIAS)</a>
+  <a href="#cli">5 · CLI surface</a>
+  <a href="#evidence">6 · Evidence contract</a>
+  <a href="#knowledge">7 · Knowledge &amp; skills</a>
+  <a href="#results">8 · Measured results</a>
+  <a href="#b300">8.2 · B300 campaign ledger</a>
+  <a href="#evidence-tree">9 · Evidence inventory</a>
+  <a href="#ci">10 · CI &amp; test suite</a>
+  <a href="#governance">11 · Governance &amp; history</a>
+  <a href="#assessment">12 · Assessment</a>
+</nav>
+
+<main>
+
+<div class="toc-top">Report sections: 1 Summary · 2 Identity · 3 Core idea · 4 Architecture · 5 CLI · 6 Evidence · 7 Knowledge · 8 Results · 9 Evidence inventory · 10 CI &amp; tests · 11 Governance · 12 Assessment</div>
+
+<!-- ============ 1. EXEC SUMMARY ============ -->
+<section id="summary">
+  <h2>1 · Executive summary</h2>
+  <p><b>InferRSI is a CLI-first experiment harness for LLM/diffusion inference optimization, built around one unusual bet: the bottleneck in agent-driven optimization is not the agent — it is the absence of a trustworthy evidence contract.</b> The repo packages three things into one Python package: (a) an AB/BA A/B experiment runner with source fingerprinting and quality gates, (b) a curated, source-cited knowledge base of tuning lessons exportable as context for coding agents (Codex, Claude, etc.), and (c) a first-class <code>evidence/</code> tree where every performance claim must land as inspectable artifacts.</p>
+  <p>The most distinctive engineering choice is the <b>verdict discipline</b>: exactly three verdicts exist — <span class="badge b-pass">PASS</span> <span class="badge b-fail">FAIL</span> <span class="badge b-inc">INCONCLUSIVE</span> — and <code>PASS</code> requires pinned baseline/candidate SHAs, validators frozen <em>before</em> candidate search, and a complete evidence tree. Missing evidence is never rounded up to success; it stays <span class="badge b-inc">INCONCLUSIVE</span>. The README itself applies this to its own numbers: a locally adjudicated 30.60% latency reduction on 4×B300 is presented as a recorded PASS, while an imported Ascend NPU −22% result is explicitly labeled "not independently verified by this import."</p>
+  <div class="stats">
+    <div class="stat"><div class="n">20 days</div><div class="l">repo age at report date (born 2026-10-08)</div></div>
+    <div class="stat"><div class="n">132</div><div class="l">commits on main</div></div>
+    <div class="stat"><div class="n">6,499</div><div class="l">LOC of package code (stdlib-only)</div></div>
+    <div class="stat"><div class="n">761</div><div class="l">tests in 70 files</div></div>
+    <div class="stat"><div class="n">100</div><div class="l">skill documents (67 registered)</div></div>
+    <div class="stat"><div class="n">115</div><div class="l">knowledge records, 3 tiers</div></div>
+    <div class="stat"><div class="n">556</div><div class="l">files in evidence/ (9 campaigns)</div></div>
+    <div class="stat"><div class="n">6</div><div class="l">CI workflows, all CPU-only</div></div>
+  </div>
+  <div class="callout"><b>One-line verdict of this report:</b> a small (~6.5k LOC), unusually disciplined experiment harness whose real product is <em>claim hygiene for optimization work</em> — the bulk of the repository, by bytes, is curated knowledge (≈92% of <code>src/</code>) and frozen evidence (6.9 MB), not code.</div>
+</section>
+
+<!-- ============ 2. IDENTITY ============ -->
+<section id="identity">
+  <h2>2 · Repository identity</h2>
+  <table>
+    <tr><th style="width:200px">Property</th><th>Value</th></tr>
+    <tr><td>Canonical URL</td><td class="mono">https://github.com/InferMatrixLab/InferRSI</td></tr>
+    <tr><td>Created / pushed</td><td>2026-10-08 · last push 2026-10-28 (daily activity throughout)</td></tr>
+    <tr><td>License · language</td><td>Apache-2.0 · Python (primary), plus ~48k lines of curated Markdown/JSON data</td></tr>
+    <tr><td>Community</td><td>51 stars · 9 forks · 44 open issues/PRs · discussions enabled</td></tr>
+    <tr><td>Release state</td><td><span class="badge b-plan">v0.1.0 Developer Preview (planned)</span> tag not published; not on PyPI; no API stability promise</td></tr>
+    <tr><td>Dependencies</td><td><b>Runtime: none.</b> Optional extras: <code>skills</code> (PyYAML), <code>image</code> (numpy/Pillow/scikit-image), <code>dev</code> (pytest/ruff)</td></tr>
+    <tr><td>Entry point</td><td class="mono">inferrsi = inferrsi.cli:main</td></tr>
+    <tr><td>Contributors</td><td>Dong1017 (76 commits), WeiQing Chen (29), David Chen (12), Hongsheng Liu (5), Zeng Chuang (4), jiangkuaixue123 (2), amy-why-3459 (2) — 8 total</td></tr>
+    <tr><td>Repo size mix</td><td>evidence/ 6.9 MB · docs/ 6.6 MB · src/ 5.0 MB (of which ~92% is packaged data) · tests/ 1.9 MB</td></tr>
+  </table>
+  <p class="src-note">Sources: GitHub REST API (2026-10-28) and local git history of main @ <code>608df33</code>.</p>
+
+  <h3>Directory map</h3>
+  <div class="tree">
+<b>src/inferrsi/</b>          the package — CLI, contracts, SIAS planes, packaged data
+├── cli.py · arguments.py   18 subcommands (doctor/plan/run/status/report/skills/knowledge/collect/read/resource/context)
+├── claim.py                Verdict enum: PASS | FAIL | INCONCLUSIVE (28 lines, load-bearing)
+├── runspec.py              frozen 26-field RunSpec snapshot dataclass
+├── knowledge_store.py      SQLite KnowledgeStore — the one authorized writable surface
+├── catalog.py · research.py · knowledge_operations.py · skill_catalog.py
+├── <b>harness/</b>           AB/BA loop, improvement controller, skill eval, reports   (~915 LOC)
+├── <b>model/</b>             request/metric protocols, image/flare validators, agent   (~1,133 LOC)
+├── <b>infra/</b>             git identity, platforms, processes, local executor        (~837 LOC)
+└── <b>data/</b>              4.6 MB curated payload: knowledge_packs, repo_packs,
+                            platform_packs, skill_library (100 SKILL.md), research_profiles
+<b>docs/</b>                  30+ guides: architecture, operations, contributing, campaign reports
+<b>evidence/</b>              9 campaign dirs × {plan, results, patch, validator}
+<b>tests/</b>                 70 files, 761 test functions, fixtures incl. 5 fictional repos
+<b>tools/</b>                 16 utilities: evidence validator, skill-eval drivers, charts
+<b>examples/</b>              3 frozen campaign scripts (Qwen-Image B300)
+<b>.github/</b>               6 workflows, acceptance-issue template, PR template, model policy
+  </div>
+</section>
+
+<!-- ============ 3. CORE IDEA ============ -->
+<section id="loop">
+  <h2>3 · The core idea: optimize with evidence, reuse reviewed lessons</h2>
+  <p>InferRSI positions itself as the <em>workbench</em> between a human/agent optimizer and a target inference engine. You bring the benchmark and quality-check commands; the workbench runs controlled comparisons and refuses to let narrative outrun artifacts. The loop has three promises:</p>
+  <div class="grid3">
+    <div class="card"><h4 style="margin:0 0 6px;color:var(--accent-deep)">Profile first</h4><p style="font-size:13.5px;margin:0">Ground each optimization in measured bottlenecks and source-cited tuning knowledge (searchable by repo, backend, tier, scenario).</p></div>
+    <div class="card"><h4 style="margin:0 0 6px;color:var(--accent-deep)">Prove the gain</h4><p style="font-size:13.5px;margin:0">Repeated AB/BA-ordered A/B against the target engine with quality gates, git source fingerprints, and a generated HTML evidence report.</p></div>
+    <div class="card"><h4 style="margin:0 0 6px;color:var(--accent-deep)">Keep the lessons</h4><p style="font-size:13.5px;margin:0">Search prior experience, including failed directions, and export revision-pinned context bundles for coding agents.</p></div>
+  </div>
+  <h3>RSI contract (from AGENTS.md, enforced by review)</h3>
+  <ul>
+    <li><b>Freeze gates before search</b> — checklist and <code>validator/</code> locked in <code>plan/</code> before any candidate experiment.</li>
+    <li><b>One plane per campaign step</b> — each iteration changes exactly one declared SIAS plane: <code>harness</code> | <code>model</code> | <code>infra</code>.</li>
+    <li><b>Emit RunSpec snapshots</b> — repo × revision × backend × device × model × scenario recorded per run.</li>
+    <li><b>Evaluator + evidence win</b> — agent narrative is never a PASS; verdicts follow frozen gates and artifacts.</li>
+  </ul>
+  <div class="callout note"><b>What it is explicitly not (v0.1.0):</b> no automatic model-backed search, no automatic knowledge promotion, no RunSpec auto-population; knowledge retrieval is read-only; candidate storage is separately authorized. Process-cleanup behavior still needs platform-specific validation.</div>
+</section>
+
+<!-- ============ 4. ARCHITECTURE ============ -->
+<section id="architecture">
+  <h2>4 · Architecture: the SIAS boundary</h2>
+  <p>The package is split into three planes — <b>S</b>cenario/<b>I</b>nput via harness, model, and infra seams — so that new campaigns (new model, new repo, new hardware) plug into one shared AB/BA scheduler, process cleanup, and performance adjudication instead of forking them.</p>
+
+  <div class="planes">
+    <div class="plane">
+      <h4>harness/</h4>
+      <div class="loc">9 files · ~915 LOC</div>
+      <ul>
+        <li><code>runner.py</code> — the one AB/BA loop for every scenario/target/backend; owns evidence lifecycle</li>
+        <li><code>improvement.py</code> — bounded offline improvement controller (INV/DOM proposals, budget, holdout)</li>
+        <li><code>skill_evaluation.py</code> — Codex client wrapper + skill trial harness</li>
+        <li><code>evaluation.py</code> — evidence gates → verdicts</li>
+        <li><code>reporting.py</code> — portable HTML evidence report</li>
+        <li><code>scenarios/</code> — external-command &amp; media scenarios</li>
+      </ul>
+      <div class="owns"><b>Owns:</b> scheduling, deadlines, evidence, adjudication<br><b>Never owns:</b> device specifics, request schemas, kernels</div>
+    </div>
+    <div class="plane">
+      <h4>model/</h4>
+      <div class="loc">8 files · ~1,133 LOC</div>
+      <ul>
+        <li><code>protocols/image.py</code> — image request dataclass</li>
+        <li><code>protocols/metrics.py</code> — the metric contract: one finite, positive, dotted-key float</li>
+        <li><code>validators/image.py</code> — PNG comparison with campaign-supplied gates (SSIM/PSNR)</li>
+        <li><code>validators/flare.py</code> — NVIDIA flare local-inference SSE validator</li>
+        <li><code>anthropic_agent.py</code> — bounded direct Anthropic agent, frozen cost reservations, schema-validated output</li>
+      </ul>
+      <div class="owns"><b>Owns:</b> payloads, metric schemas, quality checks<br><b>Never owns:</b> scheduling, workers, hardware</div>
+    </div>
+    <div class="plane">
+      <h4>infra/</h4>
+      <div class="loc">15 files · ~837 LOC</div>
+      <ul>
+        <li><code>targets/git.py</code> — repository identity: revision + tracked diff + untracked fingerprint</li>
+        <li><code>platforms/{cuda,mlx}.py</code> — device discovery/qualification (nvidia-smi CSV, macOS sysctl)</li>
+        <li><code>processes.py</code> — ownership/cleanup of commands &amp; supervised servers (incl. Windows Job Objects)</li>
+        <li><code>executors/local.py</code> — deadline-bounded argv execution; never interprets results</li>
+        <li><code>artifacts.py</code> — deterministic digests, atomic JSON evidence writes</li>
+      </ul>
+      <div class="owns"><b>Owns:</b> identity, devices, transport, processes<br><b>Never imports:</b> model or harness (dependency floor)</div>
+    </div>
+  </div>
+
+  <h3>Load-bearing contracts at the root</h3>
+  <table>
+    <tr><th style="width:220px">Module</th><th>Role</th></tr>
+    <tr><td class="mono">claim.py <span class="badge b-muted">28 LOC</span></td><td>The whole verdict system: <code>Verdict(str, Enum)</code> with exactly three members; <code>parse_verdict()</code> rejects any other label; <code>claim_requires_pinned_shas()</code> enforces that only PASS demands pinned SHAs. No thresholds live here.</td></tr>
+    <tr><td class="mono">runspec.py <span class="badge b-muted">104 LOC</span></td><td>Frozen <code>RunSpec</code> dataclass with 26 validated fields (baseline/candidate commands, repo_type, backend, scenario, mode, validation command, metric key/unit/direction, repetitions, deadlines, model, agent, device IDs…). <code>validate()</code> enforces enum domains, positive-finite numerics, and output_dir disjoint from source repos.</td></tr>
+    <tr><td class="mono">knowledge_store.py <span class="badge b-muted">297 LOC</span></td><td><code>KnowledgeStore</code> — SQLite-backed, the single authorized writable store for candidate bundles: lineage, revision pinning, immutable history, stale-write rejection. Package and checkout content stay read-only.</td></tr>
+    <tr><td class="mono">knowledge_operations.py</td><td>Bundle/KnowledgeReader: byte-derived bundle identity across package data, skill roots, and store; bounded <code>collect</code> with explicit <code>no_match</code>/<code>omissions</code>/<code>collisions</code>.</td></tr>
+    <tr><td class="mono">catalog.py · research.py</td><td>Read-only knowledge catalog/search/validation; model-aware research queries unioned with research-target annotations (e.g., a packaged MiniMax-H3 profile).</td></tr>
+    <tr><td class="mono">summary_chart.py <span class="badge b-muted">1,075 LOC</span></td><td>SVG campaign gain-chart renderer — the largest single module, devoted to honest visualization of evidence.</td></tr>
+  </table>
+
+  <h3>Dependency rules (test-enforced)</h3>
+  <ul>
+    <li>Entrypoints → harness; scenarios → model + infra; model → infra utilities.</li>
+    <li><b>Infra never imports model or harness.</b> No shared package imports a campaign from <code>examples/</code>.</li>
+    <li><code>tests/test_module_boundaries.py</code> proves extension adapters reuse the <em>real</em> scheduler and process executor rather than re-implementing them.</li>
+    <li>Metric contract: exactly one finite positive float with a dotted key; <code>0.0</code>, booleans, and non-finite values are metric errors, not gains.</li>
+  </ul>
+
+  <h3>The offline harness-improvement controller (MVP)</h3>
+  <p>A second, deliberately narrow lane: a single-step offline controller above the Skill Eval comparator. It accepts at most one <b>INV</b> (invariant) and one <b>DOM</b> (domain) text-edit proposal, materializes them as immutable Git snapshots, probes with balanced AB/BA pairing against H0, applies a fixed lexicographic <em>quality-then-known-tokens</em> selection, mandates an independent successor rerun, and ends in exactly one held-out accept/reject gate that can never select a different candidate. Budget (call allowance, absolute deadline, observed-token threshold) carries across all stages; unknown token usage stops the loop and retains H0. It makes zero proposal-model calls and never promotes skills.</p>
+</section>
+
+<!-- ============ 5. CLI ============ -->
+<section id="cli">
+  <h2>5 · CLI surface: 18 subcommands, 4 effect classes</h2>
+  <p>Every operation is classified by blast radius — the docs' operations guide is effectively a capability table:</p>
+  <div class="grid2">
+    <div class="card" style="margin:0"><h4 style="margin:0 0 4px">Effect classes</h4>
+      <ul style="margin:8px 0 0;font-size:13.5px">
+        <li><b>Read-only</b> — no writes outside caller-chosen outputs</li>
+        <li><b>Candidate-writing</b> — only inside one explicitly authorized local store</li>
+        <li><b>Report-generating</b> — HTML into the caller-selected run directory</li>
+        <li><b>Experiment-executing</b> — runs caller-supplied commands under the experiment contract</li>
+      </ul>
+    </div>
+    <div class="card" style="margin:0"><h4 style="margin:0 0 4px">Exit-code semantics of <code>inferrsi run</code></h4>
+      <ul style="margin:8px 0 0;font-size:13.5px">
+        <li><span class="badge b-pass">0 = PASS</span> every frozen gate met on complete evidence</li>
+        <li><span class="badge b-fail">1 = FAIL</span> complete evidence shows a gate missed</li>
+        <li><span class="badge b-inc">2 = other</span> input errors / INCONCLUSIVE</li>
+      </ul>
+      <p style="font-size:12px;color:var(--ink-faint);margin:8px 0 0">Status state machine: completed · timeout · failed · cancelled · crashed · termination_failed.</p>
+    </div>
+  </div>
+  <table>
+    <tr><th style="width:250px">Command</th><th>Class</th><th>What it does</th></tr>
+    <tr><td class="mono">doctor</td><td>read-only</td><td>Probe a prepared target checkout (repo, Python, device) without installing; "certifies nothing"</td></tr>
+    <tr><td class="mono">plan / run --dry-run</td><td>read-only</td><td>Preview RunSpec + environment; persists nothing</td></tr>
+    <tr><td class="mono">run</td><td>executing</td><td>Measure baseline vs candidate external commands (repetitions, metric, direction, deadline); writes <code>runs/&lt;id&gt;/</code> with lock, status, HTML report</td></tr>
+    <tr><td class="mono">status · report</td><td>read-only / report</td><td>Read status.json; regenerate the HTML evidence report</td></tr>
+    <tr><td class="mono">skills list/show/resource/reference</td><td>read-only</td><td>Inspect explicitly selected skills; <b>never installs or executes them</b></td></tr>
+    <tr><td class="mono">knowledge search/show</td><td>read-only</td><td>Search the installed package catalog (tier/repo/backend/scenario filters)</td></tr>
+    <tr><td class="mono">knowledge research MODEL</td><td>read-only</td><td>Union model/framework/task/modality/mechanism queries + research-target annotations</td></tr>
+    <tr><td class="mono">collect · read · resource</td><td>read-only</td><td>Bundle selected skills/knowledge into a revision-pinned envelope; read back exact bytes — no fallback to newer revisions</td></tr>
+    <tr><td class="mono">context</td><td>read-only</td><td>Export cited knowledge as Markdown context for coding-agent handoff</td></tr>
+  </table>
+</section>
+
+<!-- ============ 6. EVIDENCE CONTRACT ============ -->
+<section id="evidence">
+  <h2>6 · The evidence contract</h2>
+  <p>This is the heart of the repository. A public PASS requires all three of:</p>
+  <ol>
+    <li><b>Pinned revisions</b> — baseline and candidate SHAs recorded in the acceptance issue (<code>.github/ISSUE_TEMPLATE/campaign-acceptance.yml</code> collects campaign_id, both SHAs, RunSpec, gates, evidence paths, verdict, downstream citation).</li>
+    <li><b>Validators frozen before candidate search</b> — <code>validator/</code> + gate checklist locked in <code>plan/</code>.</li>
+    <li><b>A complete evidence tree</b> under <code>evidence/&lt;campaign-id&gt;/</code>:</li>
+  </ol>
+  <div class="tree" style="margin-left:22px;margin-right:22px">evidence/&lt;campaign-id&gt;/
+├── <b>plan/</b>       hypothesis, RunSpec snapshot, frozen gate checklist
+├── <b>results/</b>    metrics, logs, verdict rationale
+├── <b>patch/</b>      candidate diff or revision pointer
+└── <b>validator/</b>  frozen validator definition + inputs</div>
+  <ul>
+    <li>Verdict semantics: <span class="badge b-pass">PASS</span> pinned comparison + complete evidence + every gate met · <span class="badge b-fail">FAIL</span> complete evidence shows a missed gate · <span class="badge b-inc">INCONCLUSIVE</span> missing freeze, incomplete runs, unqualified environment.</li>
+    <li>Claim wording is standardized: "on candidate versus baseline, under this RunSpec, we observed …" linking the acceptance issue and revisions.</li>
+    <li>Model integrity = SHA-256 of actual file bytes; size/mtime equality is metadata only. A crashed or interrupted validator forces INCONCLUSIVE even if samples look fine.</li>
+    <li><b>Negative results are kept</b> as scoped rejected-direction cases with revisit checks — a diagnostic option, not a blacklist.</li>
+  </ul>
+
+  <h3>Validation ladder L0–L4 (portable bars)</h3>
+  <table>
+    <tr><th style="width:70px">Level</th><th>Focus</th><th>Portable bar</th></tr>
+    <tr><td class="mono">L0</td><td>Operator correctness — numerical contracts, edge cases, fallbacks</td><td rowspan="5" style="vertical-align:middle;font-size:13px;color:var(--ink-soft)">A PASS on <b>latency / throughput / SLO</b> wording requires <b>L4</b> (or campaign-defined e2e) evidence in <code>results/</code>; L0–L2 cannot justify service claims. Numeric thresholds live in acceptance issues and frozen <code>plan/</code> — never in CI, skills, or repo constants. Missing levels or env mismatch ⇒ INCONCLUSIVE.</td></tr>
+    <tr><td class="mono">L1</td><td>Microbenchmark — fixed inputs, shapes, warmup policy, timing</td></tr>
+    <tr><td class="mono">L2</td><td>Isolated scenario — stage behavior and integration</td></tr>
+    <tr><td class="mono">L3</td><td>Model / modality quality — complete outputs under a frozen quality protocol</td></tr>
+    <tr><td class="mono">L4</td><td>End-to-end service — full workload, latency/throughput/SLO, stability</td></tr>
+  </table>
+  <div class="callout warn"><b>Microbench ≠ service gain</b> is stated as a hard rule, and the repo honors it: the H18 Triton launch-API probe measured host enqueue 6.41 → 3.95 µs but was recorded as "no E2E integration" — a probe, not a claim. The engine-delivery template repeats: "Do not infer E2E gain by multiplying kernel speedups."</div>
+</section>
+
+<!-- ============ 7. KNOWLEDGE ============ -->
+<section id="knowledge">
+  <h2>7 · Knowledge &amp; skill system</h2>
+  <p>By bytes, most of InferRSI <em>is</em> its knowledge: ~48,000 lines of curated Markdown + JSON under <code>src/inferrsi/data/</code> (4.6 MB of the 5.0 MB src tree). Reading material never executes and never grants change permission.</p>
+
+  <h3>115 knowledge records in three tiers</h3>
+  <table>
+    <tr><th style="width:130px">Tier</th><th style="width:60px" class="num">Count</th><th>Contents</th></tr>
+    <tr><td><b>contribution</b></td><td class="num">95</td><td>Per-repo, per-backend lessons in <code>repo_packs/</code>: vllm_omni (16: diffusion/audio/omni across ascend+cuda+common), inferrsi (67 generated skill-index entries), sglang, sglang_omni, strata, vllm. Backend split: common 67 · ascend 17 · cuda 11.</td></tr>
+    <tr><td><b>dependency</b></td><td class="num">9</td><td>Upstream library knowledge: diffusers, flashattention, flashinfer, mlx (3), pytorch, transformers, triton.</td></tr>
+    <tr><td><b>peer</b></td><td class="num">11</td><td>Comparable-engine techniques: cache_dit, deepinfer, lmdeploy, qwen3_tts_engine (ascend/audio), sglang, tensorrt_llm, xdit.</td></tr>
+  </table>
+  <p class="src-note">Packs: 7 runnable repo packs (vllm, vllm_omni, sglang, sglang_omni, strata, afd_plugin, vllm_rlt) · 4 platform packs (ascend, cuda, mlx, rocm) · declared backends: cpu / cuda / rocm / ascend / mlx.</p>
+
+  <h3>Skill library: 100 documents, 67 registered skills</h3>
+  <ul>
+    <li>Layout: <code>skill-index.json</code> (stable IDs → categorized paths) plus owner directories <code>hardware/</code> (22: ascend 14, cuda 3, host 5), <code>frameworks/</code> (3), <code>methods/</code> (18), <code>repositories/</code> (23 top-level + 27 sub-skills across 19 repos), <code>workflows/</code> (7 — incl. rsi-evidence, draft-acceptance-issue, cite-check-downstream-pr, competitor-scan).</li>
+    <li>Every skill: <code>SKILL.md</code> + <code>metadata.json</code> + optional <code>references/</code> and <code>cases/</code>. All content English; skills must remain free of campaign SHAs.</li>
+    <li>Typed provenance on every record: Git (URL + commit + readset), Paper (ID/version — "never a fabricated Git commit"), Document (immutable hash), Internal (issue/run + artifact identity).</li>
+  </ul>
+
+  <h3>Three authorities, one writable surface</h3>
+  <table>
+    <tr><th style="width:120px">Authority</th><th>Writability</th><th>Notes</th></tr>
+    <tr><td class="mono">package</td><td>read-only adapter</td><td>Installed catalog + skill library</td></tr>
+    <tr><td class="mono">checkout</td><td>read-only adapter</td><td>Explicitly selected skills root; amendments via scoped PR</td></tr>
+    <tr><td class="mono">store</td><td><b>the only writer</b></td><td>SQLite <code>KnowledgeStore</code>: create/update/collect with lineage, revision pinning, immutable history; never promotes candidates</td></tr>
+  </table>
+  <p>Qualified references use <code>&lt;authority&gt;:&lt;id&gt;</code>; ambiguous unqualified IDs are rejected rather than resolved by precedence; unavailable pinned revisions never fall back to newer bytes.</p>
+
+  <h3>Knowledge-model policy (AI authorship control)</h3>
+  <p>A dedicated workflow guards protected knowledge paths. The PR template requires a fenced <code>knowledge-model-policy</code> declaration (head SHA, human_only flag, AI authors with tool/model/effort/role). Admitted AI authorship is allow-listed — models <code>claude-opus-5-5</code>, <code>gpt-6-astra</code>, <code>gpt-6.1-sol</code> at <code>xhigh</code>/<code>max</code> effort — with a designated approval owner. Rejected captures are encrypted one-shot artifacts (public key committed; 1-day retention).</p>
+</section>
+
+<!-- ============ 8. RESULTS ============ -->
+<section id="results">
+  <h2>8 · Measured results — with the repo's own labels</h2>
+
+  <h3>8.1 · Qwen-Image-2.1-Turbo on 4× NVIDIA B300 <span class="badge b-pass">RECORDED PASS</span></h3>
+  <p><span class="mono">1280×704 · BF16 · native 8 steps · CFG 1 · eager · FA4 · TP1/Ulysses4/Ring1 · concurrency 1</span> — five alternating AB/BA groups, warmed repeated prompts with new seeds; latency = median of trial means; acceptance issue #3; upstream PR <a href="https://github.com/vllm-project/vllm-omni/pull/8739">vllm-omni#8739</a>; baseline <code>f69b1f2b</code> → candidate <code>330d411d</code>.</p>
+
+  <div class="bar-head"><span>Workload</span><span></span><span>Median E2E</span></div>
+  <div class="bar-row"><div class="bar-label">Baseline (f69b1f2b)</div><div class="bar-track"><div class="bar-fill base" style="width:100%"></div></div><div class="bar-val">384.16 ms</div></div>
+  <div class="bar-row"><div class="bar-label">Phase 1 cohort (−12.89%)</div><div class="bar-track"><div class="bar-fill" style="width:87.3%"></div></div><div class="bar-val">335.42 ms</div></div>
+  <div class="bar-row"><div class="bar-label">Phase 2 cohort (−29.81%) <span class="badge b-fail">FAIL vs 30% gate</span></div><div class="bar-track"><div class="bar-fill" style="width:69.9%"></div></div><div class="bar-val">268.77 ms</div></div>
+  <div class="bar-row"><div class="bar-label"><b>Final H19 cohort (−30.60%)</b> <span class="badge b-pass">PASS</span></div><div class="bar-track"><div class="bar-fill gold" style="width:69.4%"></div></div><div class="bar-val"><b>266.60 ms</b></div></div>
+  <p class="src-note">Quality: 44/44 formal + held-out output files pixel-identical (RGB and alpha; gates SSIM ≥ 0.99, PSNR ≥ 35 dB). Statistical significance not established. The earlier −29.81% cohort is honestly recorded as retained FAIL against the 30% gate — the repo kept a miss on the books until the target was actually met.</p>
+
+  <h3 id="b300">8.2 · The optimization ledger: 19 hypotheses, 10 kept, 9 rejected</h3>
+  <p>The B300 campaign doc records an exploratory, non-additive ledger (each number = stack state at that step):</p>
+  <table>
+    <tr><th style="width:56px">ID</th><th>Hypothesis</th><th class="num" style="width:110px">E2E</th><th>Outcome</th></tr>
+    <tr><td class="mono">H2</td><td>Bounded exact text-conditioning reuse</td><td class="num">369.54 ms</td><td><span class="badge b-pass">kept</span></td></tr>
+    <tr><td class="mono">H4</td><td>Share token selection + scale/gate tanh per step</td><td class="num">~360 ms</td><td><span class="badge b-pass">kept</span></td></tr>
+    <tr><td class="mono">H5</td><td>Byte-preserving symmetric-memory Ulysses</td><td class="num">~347 ms</td><td><span class="badge b-pass">kept</span></td></tr>
+    <tr><td class="mono">H8</td><td>Request-local geometry/RoPE/mask metadata reuse</td><td class="num">~340 ms</td><td><span class="badge b-pass">kept</span></td></tr>
+    <tr><td class="mono">H9</td><td>Fuse residual gate mul/add + SiLU/mul (BF16 materialization kept)</td><td class="num">331.45 ms</td><td><span class="badge b-pass">kept</span></td></tr>
+    <tr><td class="mono">H10</td><td>RoPE fused with actual complex FMA ordering</td><td class="num">327.15 ms</td><td><span class="badge b-pass">kept</span></td></tr>
+    <tr><td class="mono">H12</td><td>Reuse exact VAE norm epilogue</td><td class="num">280.25 ms</td><td><span class="badge b-pass">kept</span></td></tr>
+    <tr><td class="mono">H13</td><td>Match ATen reduction tree in head-128 norm/RoPE</td><td class="num">277.44 ms</td><td><span class="badge b-pass">kept</span></td></tr>
+    <tr><td class="mono">H15</td><td>Direct strided staging + batched QKV exchange</td><td class="num">265.19 ms</td><td><span class="badge b-pass">kept</span></td></tr>
+    <tr><td class="mono">H19</td><td>Validate native BF16 pointwise contracts once per step (eligibility calls 576 → 6)</td><td class="num">266.47 ms</td><td><span class="badge b-pass">kept</span></td></tr>
+    <tr><td class="mono">H1</td><td>5D QKV exchange pack</td><td class="num">394.68 ms</td><td><span class="badge b-fail">slower</span></td></tr>
+    <tr><td class="mono">H3</td><td>Q/K RMSNorm + complex RoPE fusion</td><td class="num">—</td><td><span class="badge b-fail">full images failed</span> (operator tests passed)</td></tr>
+    <tr><td class="mono">H6/H7</td><td>CUDA-graph pieces</td><td class="num">—</td><td><span class="badge b-fail">no E2E gain</span> / replay costs</td></tr>
+    <tr><td class="mono">H11, H14, H16, H17</td><td>Norm/RoPE variant, broadcast decode scale/gate, skip empty concat, pointwise-check reorder</td><td class="num">—</td><td><span class="badge b-fail">superseded / removed / confounded</span></td></tr>
+    <tr><td class="mono">H18</td><td>Compiled Triton launch API (probe)</td><td class="num">6.41→3.95 µs host enqueue</td><td><span class="badge b-inc">probe only, no E2E integration</span></td></tr>
+  </table>
+  <p class="src-note">Diagnostics: after H8, communication kernels 768 → 384 and CUDA launches 10,581 → 4,173 (−60.56%). TP2/U2 and TP4/U1 failed quality and were not promoted. Two Wan FP16 baseline failures stayed failures; B300 validation does not establish H200 correctness.</p>
+
+  <h3>8.3 · Ascend 910B1 NPU <span class="badge b-inc">IMPORTED, NOT RERUN</span></h3>
+  <p>Author-reported (amy-why-3459, upstream <a href="https://github.com/vllm-project/vllm-omni/pull/8729">vllm-omni#8729</a>) means of 3 requests after 2 warmups; InferRSI records <code>locally_verified=false</code> and verdict <span class="badge b-inc">INCONCLUSIVE</span>; the author's 30% target <b>not met</b>.</p>
+  <div class="bar-head"><span>Configuration stack</span><span></span><span>Mean E2E</span></div>
+  <div class="bar-row"><div class="bar-label">Unoptimized baseline</div><div class="bar-track"><div class="bar-fill base" style="width:100%"></div></div><div class="bar-val">3111.5 ms</div></div>
+  <div class="bar-row"><div class="bar-label">+ conditioning reuse (−14.7%)</div><div class="bar-track"><div class="bar-fill" style="width:85.3%"></div></div><div class="bar-val">2654.3 ms</div></div>
+  <div class="bar-row"><div class="bar-label">+ NPU interleaved RoPE (−21.0%)</div><div class="bar-track"><div class="bar-fill" style="width:79.0%"></div></div><div class="bar-val">2459.6 ms</div></div>
+  <div class="bar-row"><div class="bar-label">+ opt-in VAE fastpath (−22.0%)</div><div class="bar-track"><div class="bar-fill gold" style="width:77.9%"></div></div><div class="bar-val">2425.5 ms</div></div>
+  <p class="src-note">First two steps pixel-identical RGBA; VAE fastpath passes the SSIM/PSNR quality gate but is <b>not pixel-identical</b> — recorded separately, not blurred together. Ten rejected rounds kept on the books (cached eager RoPE slower; per-step mask caching → NPU OOM; <code>npu_fusion_attention</code> precise=0/2 below threshold; <code>TASK_QUEUE_ENABLE</code> no gain; <code>enforce_eager=0</code> slower; combined stack OOM at init).</p>
+
+  <h3>8.4 · Skill evaluation v1/v2 <span class="badge b-pass">18/18 PASS</span> <span class="badge b-inc">no skill beats baseline</span></h3>
+  <p>The bounded skill-eval campaign (issue #40, PR #69) compared packaged skills against a no-instructions baseline with real Codex clients: v2 final = 18/18 matched trials + 3 discovery probes PASS with zero regressions — and the honest headline is that <b>no skill improved correctness over baseline</b>; <code>automatic_promotion: false</code>. A first-position scheduling imbalance (4/2/0) in the pilot was preserved as a written corrigendum rather than silently fixed.</p>
+
+  <h3>8.5 · External engine results (author-reported, not rerun)</h3>
+  <table>
+    <tr><th>Project</th><th>Device</th><th class="num">Headline</th><th>Status label</th></tr>
+    <tr><td><a href="https://github.com/zuiho-kai/h3-metal">h3-metal</a> (FastH3 4-step + block-sparse attention)</td><td>Apple M5 Max, 40-core</td><td class="num">3.17× cold / 7.40× warm vs MLX</td><td>author-reported; not rerun in InferRSI</td></tr>
+    <tr><td><a href="https://github.com/InferMatrixLab/drama-3-single-b300-engine">Drama 3</a> speech engine</td><td>1× B300</td><td class="num">309.17 frames/s · TTFA p50 32.83 ms</td><td>3-run medians; overall target unmet</td></tr>
+    <tr><td><a href="https://github.com/InferMatrixLab/qwen3-tts-rsi-npu-engine">Qwen3-TTS</a> engine</td><td>1× Ascend 910B1</td><td class="num">61.12 frames/s · TTFA p50 50.41 ms</td><td>source campaign accepted</td></tr>
+    <tr><td><a href="https://github.com/InferMatrixLab/minicpm-o-4.5-single-gpu-engine">MiniCPM-o 4.5</a> engine</td><td>1× L20X</td><td class="num">397.43 frames/s · TTFA 126.2 ms</td><td>target unmet, quality unqualified</td></tr>
+  </table>
+</section>
+
+<!-- ============ 9. EVIDENCE INVENTORY ============ -->
+<section id="evidence-tree">
+  <h2>9 · Evidence inventory: 9 campaigns, 556 files</h2>
+  <table>
+    <tr><th style="width:250px">Campaign</th><th class="num" style="width:60px">Files</th><th style="width:110px">Verdict</th><th>Notes</th></tr>
+    <tr><td class="mono">qwen21-turbo-b300-20261010</td><td class="num">3</td><td><span class="badge b-pass">PASS</span></td><td>The −30.60% campaign; 11.7 MB raw evidence sha256-pinned, hosted on GitHub Releases with archive manifest</td></tr>
+    <tr><td class="mono">qwen21-turbo-b300-review-20261012</td><td class="num">1</td><td><span class="badge b-inc">descriptive</span></td><td>3-arm A/B, 5 fresh-server trials/arm: recipe −30.55%, same-flag −28.86%, 60 outputs RGBA-identical; explicitly no significance claim</td></tr>
+    <tr><td class="mono">qwen21-turbo-b300-human-review-…</td><td class="num">1</td><td><span class="badge b-pass">PASS</span></td><td>Scoped regression review: 2 GPU-suite failures byte-hash-attributed to pre-existing issues reproduced on unchanged main</td></tr>
+    <tr><td class="mono">modular-refactor-20261013</td><td class="num">9</td><td><span class="badge b-pass">functional PASS</span></td><td>4 comparison pairs pixel-identical (SSIM 1.0, PSNR ∞); <code>latency_claim: "None"</code> — refuses to imply speed from a refactor</td></tr>
+    <tr><td class="mono">drama3-b300-scale150</td><td class="num">8</td><td><span class="badge b-inc">INCONCLUSIVE</span></td><td>Paused at user request; best C64 = 4726.77 vs target 6765.41 frames/s; sub-experiments recorded with <code>runtime_promoted: false</code></td></tr>
+    <tr><td class="mono">qwen38-h20-fp8-single-request-vllm032</td><td class="num">413</td><td><span class="badge b-inc">INCONCLUSIVE</span></td><td>Largest tree: complete paired FP8/8K-context search failed both frozen performance-parity gates; ~100 diagnostic files incl. preserved <code>review-rejected-*</code> variants</td></tr>
+    <tr><td class="mono">skill-eval-v1-20261021</td><td class="num">108</td><td><span class="badge b-pass">v2 PASS</span></td><td>Protocol v1+v2, per-task records, byte-preserved initial integrity, replay/verify validators, order-corrigendum</td></tr>
+    <tr><td class="mono">qwen3-tts-ascend-import</td><td class="num">4</td><td><span class="badge b-inc">scaffold</span></td><td>Placeholder segments for the imported NPU TTS results</td></tr>
+    <tr><td class="mono">_template</td><td class="num">8</td><td><span class="badge b-muted">template</span></td><td>plan/results/patch/validator scaffolding; "no campaign artifacts or pinned SHAs in the template"</td></tr>
+  </table>
+  <p class="src-note">Nightly CI runs <code>tools/validate_evidence.py</code> — a read-only structural + SHA-256 inventory of every bundle; its own test header states "structural and digest checks do not grant campaign acceptance."</p>
+</section>
+
+<!-- ============ 10. CI ============ -->
+<section id="ci">
+  <h2>10 · CI: four lanes + two specialized, all CPU-only</h2>
+  <table>
+    <tr><th style="width:190px">Lane</th><th style="width:210px">Trigger</th><th>What runs</th></tr>
+    <tr><td><b>ci-draft</b></td><td>any push (non-main)</td><td>ruff + smoke tests only (<code>test_smoke.py</code>, <code>test_claim.py</code>) — deliberately light</td></tr>
+    <tr><td><b>ci-ready</b></td><td>PR → main</td><td>Matrix <b>Python 3.10 + 3.11</b>; job A builds sdist+wheel, installs wheel with <code>skills</code> extra into a clean venv, runs <code>tests/check_installed.py</code> outside the checkout; job B full pytest + ruff</td></tr>
+    <tr><td><b>ci-merge</b></td><td>push → main</td><td>Policy-manifest existence checks (contributing docs, SIAS dirs, evidence template) + light smoke — post-push safety net, not branch protection</td></tr>
+    <tr><td><b>ci-nightly</b></td><td>cron 06:00 UTC</td><td><b>ubuntu + windows</b> frozen-bytes matrix across <code>core.autocrlf</code> false/true/input; full pytest; <code>tools/validate_evidence.py</code></td></tr>
+    <tr><td><b>knowledge-model-policy</b></td><td>pull_request_target, issue comments, push main</td><td>Knowledge admission checker against trusted main; serialized single status writer; encrypted one-shot rejection artifacts</td></tr>
+    <tr><td><b>skill-eval-pr</b></td><td>PRs touching skill paths; manual dispatch</td><td>3 jobs (plan / execute / publish) with <code>permissions: {}</code>, trusted-code rebuild at publish ("never execute artifact code"), revision-bound summaries, serialized paid work</td></tr>
+  </table>
+  <div class="callout"><b>Design rule:</b> no thresholds, no GPU runners, no model downloads, no campaign SHAs in any workflow. Numeric gates live only in acceptance issues. Green CI explicitly does not imply campaign PASS.</div>
+
+  <h3>Test suite highlights (761 tests / 70 files)</h3>
+  <div class="grid2">
+    <div class="card" style="margin:0">
+      <h4 style="margin:0 0 6px">Unusual, high-signal tests</h4>
+      <ul style="font-size:13.5px;margin:6px 0 0">
+        <li><code>test_frozen_bytes.py</code> — proves Git line-ending conversion cannot mutate historical evidence across autocrlf policies (this is what nightly cross-checks on 2 OSes)</li>
+        <li><code>test_module_boundaries.py</code> — extension adapters must reuse the real scheduler/executor</li>
+        <li><code>test_evidence_inventory.py</code> — evidence digest/manifest checks</li>
+        <li><code>test_claim.py</code> — the 3-verdict enum admits nothing else</li>
+      </ul>
+    </div>
+    <div class="card" style="margin:0">
+      <h4 style="margin:0 0 6px">Coverage clusters</h4>
+      <ul style="font-size:13.5px;margin:6px 0 0">
+        <li>Knowledge policy: ~10 files (routing, HTTP, private capture, tiers, install)</li>
+        <li>Skill eval: 7 files (compare, pipeline, PR, verifier)</li>
+        <li><b>5 fictional repos</b> (<code>fixtures/repo_to_skill/{dwarfstar,husky,lily,project-maya,splash}</code>) test repo→skill distillation with assertion trees</li>
+        <li>Per-campaign suites: LTX-2.5, Qwen-2.1, Drama3, H3, MLX, Hopper</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11. GOVERNANCE ============ -->
+<section id="governance">
+  <h2>11 · Governance, audit, and history</h2>
+  <h3>Acceptance-issue-first workflow</h3>
+  <p>Work is issue-led: an acceptance issue (structured YAML form) must exist <em>before</em> a PASS is claimed; scoped-task issues bound non-performance work; the PR template separates "delivers / does-not-deliver," requires a checks-actually-run table, and forbids self-declared merge approval. DCO sign-off (<code>git commit -s</code>) is required.</p>
+
+  <h3>Source audit: 34 review points</h3>
+  <p>A user-supplied external review of main @ <code>ac70272</code> was translated into 34 tracked follow-ups across six areas — correctness (P0s: server-helper platform contract, hostname leakage), evidence verification, shared contracts, engineering/public use (licensing of UNKNOWN imported licenses), performance/scalability, and architecture (authorized evidence-to-knowledge workflow). The audit doc is careful to note priorities are the reviewer's proposals, "not confirmed severity ratings," and that the delivery slice covered only four of the items — the rest remain open work, published transparently.</p>
+
+  <h3>Velocity</h3>
+  <p>The repository went from initialization (2026-10-07/08) to: a passing 30.60% B300 campaign with upstream PR, an imported NPU campaign, a 413-file FP8 search evidence tree (INCONCLUSIVE, kept), a 761-test suite, a 100-document skill library, and a six-workflow CI system — in <b>20 days</b>, with 132 commits from 8 contributors. Historical context lives in <code>PHASE1_REPORT.md</code> (meta-skill bootstrap: performance-ceiling analysis with a 3-level roofline model; repository-evolution analysis of 3,428 commits; npu-skill-factory lifecycle) and <code>SUBMISSION_NOTES.md</code> (first-party skill packaging checklist).</p>
+
+  <h3>Engine delivery template</h3>
+  <p><code>docs/template/</code> is a copyable scaffold for delivering independent InferMatrixLab engines with scoped evidence and a recipe for the catalog — one recipe = one model × engine × backend × hardware × precision × task; deployment states <code>unverified / validated / unsupported</code>; "catalog registration is not a new hardware verification." Copying it creates no InferRSI runtime dependency.</p>
+</section>
+
+<!-- ============ 12. ASSESSMENT ============ -->
+<section id="assessment">
+  <h2>12 · Assessment</h2>
+  <div class="grid2">
+    <div class="card" style="margin:0;border-top:3px solid var(--pass)">
+      <h4 style="margin:0 0 8px;color:var(--pass)">Strengths</h4>
+      <ul style="font-size:13.5px;margin:6px 0 0">
+        <li><b>Claim hygiene as a product.</b> The 3-verdict contract, frozen validators, pinned SHAs, and INCONCLUSIVE-by-default are enforced consistently from <code>claim.py</code> up to README wording — including against the authors' own results (a −29.81% miss retained as FAIL).</li>
+        <li><b>Small, auditable core.</b> 6.5k LOC, zero runtime deps, stdlib-only; strict plane dependencies enforced by tests; the AB/BA loop exists exactly once.</li>
+        <li><b>Negative results are first-class.</b> Rejected hypotheses, failed gates, and even CI rejection diagnostics are preserved with provenance — rare and valuable for an optimization project.</li>
+        <li><b>Real validation depth.</b> Pixel-identity + SSIM/PSNR gates per channel, AB/BA ordering, warmup separation, seed discipline, source fingerprinting, frozen-bytes CI against Git mutation.</li>
+        <li><b>AI-labor governance.</b> Model allow-lists, effort floors, encrypted rejection captures, and authorship declarations anticipate agent-heavy contribution flows.</li>
+      </ul>
+    </div>
+    <div class="card" style="margin:0;border-top:3px solid var(--inc)">
+      <h4 style="margin:0 0 8px;color:var(--inc)">Limitations &amp; risks</h4>
+      <ul style="font-size:13.5px;margin:6px 0 0">
+        <li><b>Pre-release.</b> v0.1.0 unpublished; no API stability; several headline capabilities (auto search, knowledge promotion, RunSpec auto-population) unimplemented.</li>
+        <li><b>No statistical significance.</b> B300 headline uses medians of trial means; the docs say so, but n is small and the repo itself flags "significance not established."</li>
+        <li><b>Imported results asymmetry.</b> The Ascend −22% and all external-engine tables rest on author reports; the repo labels them correctly, but readers must notice the labels.</li>
+        <li><b>34 open audit items</b> include P0s (platform contracts, artifact hostname leakage, licensing of UNKNOWN imports) — acknowledged, not yet closed.</li>
+        <li><b>Evidence tree weight.</b> 6.9 MB / 556 files of committed evidence (plus Releases-hosted archives) is a deliberate trade: reproducibility over repo ergonomics.</li>
+        <li><b>Skill eval hasn't yet shown value:</b> v2 found no skill improving correctness over baseline — an honest null result that questions the current skill packaging.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout note" style="margin-top:18px"><b>Analyst's note (opinion, not the repo's claim):</b> InferRSI's moat is not the harness code — A/B runners are common — but the end-to-end <em>discipline stack</em>: verdict enum + frozen gates + evidence tree + negative-result retention + AI-authorship policy, all mutually reinforcing and cheap to audit. If agent-driven optimization becomes routine, this is a credible blueprint for making its outputs reviewable; its main adoption risk is that the discipline costs more than casual users will pay.</div>
+</section>
+
+<footer>
+  <div class="wrap" style="padding:0">
+    <p><b>Methodology.</b> This report was produced on 2026-10-28 from a full deep dive of a local checkout of main @ <code>608df33</code> (synced with InferMatrixLab/InferRSI): source survey of <code>src/inferrsi/</code> (65 Python files, 8,158 LOC), 12 primary docs read in full, evidence-tree inventory, all 6 CI workflows, the 761-test suite, and the GitHub REST API for community metrics. Performance numbers are reproduced with the repository's own verification labels: B300 figures are locally adjudicated campaign results; Ascend and external-engine figures are author-reported imports that InferRSI has not rerun. Sections 1 and 12 contain this analyst's framing and are marked as such. No experiments were executed in producing this report.</p>
+    <p style="margin-top:8px">InferRSI · InferMatrixLab · Apache-2.0 · Report generated locally — not an official InferMatrixLab document.</p>
+  </div>
+</footer>
+
+</main>
+</div>
+
+</body>
+</html>
