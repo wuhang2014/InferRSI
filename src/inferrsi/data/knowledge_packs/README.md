@@ -1,5 +1,13 @@
 # Three learning tiers
 
+- [Day-zero LLM support in vLLM and SGLang](../skill_library/workflows/inference-engine-research/references/day-zero-model-support.md): selected official announcements, dates and qualification limits; locally unverified.
+
+## Paper references
+
+- [DeepSeek-V4.1-Flash model hosts](../skill_library/repositories/deepinfer/bound-windowed-attention-replay/references/deepseek-v41-model-hosts.md): original and 1017 Hugging Face / ModelScope identities, revision provenance, and unverified mirror-equivalence limits.
+
+- [DeepSeek-V4.1-Flash technical report, arXiv:2609.19969v1](../skill_library/repositories/deepinfer/bound-windowed-attention-replay/references/deepseek-v41-flash-report.md): scoped paper readset under the existing DeepInfer owner; locally unverified.
+
 The tiers describe **how InferRSI learns from a source**, independently of its
 backend, component and evidence maturity. A technique can suggest a downstream
 experiment; repository conventions stay with their owning repository.

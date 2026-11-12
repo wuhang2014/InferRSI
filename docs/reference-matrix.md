@@ -430,6 +430,12 @@ compatibility or exceptional/asynchronous cleanup.
 
 ## DeepInfer source extraction
 
+Cross-engine discovery: [vLLM / SGLang day-zero model announcements](../src/inferrsi/data/skill_library/workflows/inference-engine-research/references/day-zero-model-support.md), observed 2026-11-12. Live document provenance, bounded readset and unverified deployment scope are recorded separately from source-code evidence.
+
+Model discovery companion: [DeepSeek-V4.1-Flash model hosts](../src/inferrsi/data/skill_library/repositories/deepinfer/bound-windowed-attention-replay/references/deepseek-v41-model-hosts.md). Original and 1017 checkpoints have separate host identities; Hugging Face revisions are recorded, ModelScope revisions remain unknown, and cross-host byte equivalence is unverified.
+
+Paper companion: [DeepSeek-V4.1-Flash, arXiv:2609.19969v1](../src/inferrsi/data/skill_library/repositories/deepinfer/bound-windowed-attention-replay/references/deepseek-v41-flash-report.md). The entry records its inspected sections and paper identity separately from the implementation pin below; empirical validation remains not_run.
+
 | Source / revision | Inspected scope | Reuse, extraction and limits |
 |---|---|---|
 | deepseek-ai/DeepInfer @ `8b16149741a4935e1dec8cea27853f273b374c5b` (Apache-2.0; direct vendors retain separate licenses) | Bounded DFlash producer/verification budget, scheduler confidence/round counters, worker ZOS metadata repair, YoCo boundary/full-layout KV, SWA metadata/ring sizing and released serving hooks; selected test/harness source | Two source-derived candidates: [verification budget](../src/inferrsi/data/skill_library/repositories/deepinfer/budget-speculative-verification/SKILL.md), [bounded query replay](../src/inferrsi/data/skill_library/repositories/deepinfer/bound-windowed-attention-replay/SKILL.md); reuse [host scheduling case](../src/inferrsi/data/skill_library/hardware/host/host-overhead-optimization/references/deepinfer-zero-overhead-scheduling.md) and [capability audit](../src/inferrsi/data/skill_library/methods/repository-evolution-analysis/references/capability-presence-audit.md). Their F labels mean pinned CODE, P means proposed procedure; test/harness reading is not execution. Native/model/device/sampling/quality/performance not_run. |
