@@ -299,6 +299,7 @@ performance evidence or an autonomous model-backed optimizer.
 | [h3-metal lessons](docs/h3-metal-apple-silicon-lessons.md) | MiniMax-H3 on Apple silicon: measurement pitfalls, gains, rejected directions and search-loop lessons |
 | [Apple silicon playbook](docs/apple-silicon-playbook.md) | Measured, engine-agnostic lessons for Metal/MLX engines: unified memory, Metal execution and benchmarking a shared Mac |
 | [Knowledge base](src/inferrsi/knowledge/data/knowledge_packs/README.md) | Three learning tiers: contribution, dependency impact and peer techniques |
+| [Inference handbook](src/inferrsi/knowledge/data/handbook/README.md) | Learn from worked paths or search, cite and combine individual sections |
 | [Skill catalog](src/inferrsi/knowledge/data/repo_packs/inferrsi/knowledge/README.md) | Searchable records linking categorized skills to full packaged procedures and resources |
 | [Source audit](docs/reviews/source-audit-ac70272.md) | 34 review points with proposed remedies, qualifications and validation criteria |
 | [Daily learning prompt](docs/daily-learning-prompt.md) | 06:00 Asia/Shanghai L2C + performance workflow and prerequisites |

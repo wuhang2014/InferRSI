@@ -1,0 +1,124 @@
+# Research records
+
+Browse by learning tier, source repository, backend and component.
+
+[All chapters](README.md)
+
+- [Three learning tiers](../pages/records/overview.md)
+- contribution
+  - [InferRSI skill discovery index](../pages/records/contribution/inferrsi/overview.md)
+  - [SGLang knowledge](../pages/records/contribution/sglang/overview.md)
+    - common
+      - llm
+        - [SGLang TP/DP/EP, PD transfer and extension ownership](../pages/records/contribution/sglang/common/llm/parallelism-and-extension.md)
+        - [SGLang scheduler, RadixCache and HiCache state ownership](../pages/records/contribution/sglang/common/llm/runtime-radix-hicache.md)
+        - [SGLang controlled tuning and model-quality gates](../pages/records/contribution/sglang/common/llm/tuning-and-validation.md)
+  - [SGLang-Omni knowledge](../pages/records/contribution/sglang_omni/overview.md)
+    - common
+      - audio
+        - [SGLang-Omni serving recipes and streaming audio measurements](../pages/records/contribution/sglang_omni/common/audio/serving-and-streaming-quality.md)
+      - omni
+        - [SGLang-Omni extension ownership and lifecycle validation](../pages/records/contribution/sglang_omni/common/omni/extension-lifecycle-validation.md)
+        - [SGLang-Omni stage DAG, process replicas and transport lifetime](../pages/records/contribution/sglang_omni/common/omni/pipeline-state-and-transport.md)
+  - [Strata knowledge](../pages/records/contribution/strata/overview.md)
+    - common
+      - llm
+        - [Strata family contracts and constrained inference search](../pages/records/contribution/strata/common/llm/architecture-search-space.md)
+        - [Strata expert residency, CPU/PCIe balance and bounded tuning](../pages/records/contribution/strata/common/llm/controlled-execution-tuning.md)
+        - [Strata engine validation from native builds to request lifecycle](../pages/records/contribution/strata/common/llm/engine-validation-contract.md)
+  - [vLLM knowledge](../pages/records/contribution/vllm/overview.md)
+    - common
+      - llm
+        - [vLLM bounded serving experiments and workload controls](../pages/records/contribution/vllm/common/llm/bounded-serving-measurement.md)
+        - [vLLM extension boundaries and correctness gates](../pages/records/contribution/vllm/common/llm/extension-correctness-gates.md)
+        - [vLLM V1 scheduling, token budgets and KV ownership](../pages/records/contribution/vllm/common/llm/runtime-and-kv-ownership.md)
+  - [vLLM-Omni knowledge](../pages/records/contribution/vllm_omni/overview.md)
+    - ascend
+      - diffusion
+        - [MiniMax-H3 reference KV reuse must balance ownership after Ulysses](../pages/records/contribution/vllm_omni/ascend/diffusion/minimax-h3-reference-kv-reuse.md)
+        - [MiniMax-H3 SP head buckets reduce exposed All-to-All with quality still pending](../pages/records/contribution/vllm_omni/ascend/diffusion/minimax-h3-sp-head-buckets.md)
+        - [Qwen-Image-2.1 eager text-to-image on one 910B1: reuse plus interleaved RoPE, 30% not met](../pages/records/contribution/vllm_omni/ascend/diffusion/qwen-image-21-eager-t2i.md)
+    - common
+      - audio
+        - [vLLM-Omni streaming audio, deployment and measurement boundaries](../pages/records/contribution/vllm_omni/common/audio/streaming-serving-measurement.md)
+      - diffusion
+        - [Diffusion measurement and profiling discipline](../pages/records/contribution/vllm_omni/common/diffusion/measurement-and-profiling.md)
+        - [Production diffusion integration and compatibility gates](../pages/records/contribution/vllm_omni/common/diffusion/production-integration-gates.md)
+        - [vLLM-Omni diffusion step state and output/transport validation](../pages/records/contribution/vllm_omni/common/diffusion/step-state-and-output-validation.md)
+        - [Upstream review gates for optional acceleration and evidence ownership](../pages/records/contribution/vllm_omni/common/diffusion/upstream-review-gates.md)
+      - omni
+        - [vLLM-Omni stage ownership and constrained execution search](../pages/records/contribution/vllm_omni/common/omni/stage-ownership-and-search.md)
+    - cuda
+      - audio
+        - [Audio concurrency scaling: mixed prefill, state ownership and codec overlap](../pages/records/contribution/vllm_omni/cuda/audio/concurrency-scaling-state-and-overlap.md)
+      - diffusion
+        - [MiniMax-H3 exact AdaLN schedule cache: capacity benefit can exceed latency benefit](../pages/records/contribution/vllm_omni/cuda/diffusion/minimax-h3-adaln-schedule-cache.md)
+        - [MiniMax-H3 online CUDA MXFP8 is an opt-in approximate deployment lane](../pages/records/contribution/vllm_omni/cuda/diffusion/minimax-h3-cuda-mxfp8.md)
+        - [MiniMax-H3 modulation fusion changes rounding and requires platform guards](../pages/records/contribution/vllm_omni/cuda/diffusion/minimax-h3-fp32-modulation.md)
+        - [MiniMax-H3 guarded Q/K RMSNorm and packed RoPE fusion](../pages/records/contribution/vllm_omni/cuda/diffusion/minimax-h3-qk-norm-rope.md)
+        - [MiniMax-H3 Ref2VA TeaCache needs task-specific calibration and step defaults](../pages/records/contribution/vllm_omni/cuda/diffusion/minimax-h3-ref2va-teacache.md)
+        - [MiniMax-H3 stacked VAE tiling trades activation memory for fewer decode calls](../pages/records/contribution/vllm_omni/cuda/diffusion/minimax-h3-vae-stacked-tiling.md)
+- dependency
+  - diffusers
+    - cuda
+      - diffusion
+        - [Diffusers group offload exchanges VRAM for host memory and transfer scheduling](../pages/records/dependency/diffusers/cuda/diffusion/group-offload-transfer-overlap.md)
+  - flashattention
+    - cuda
+      - attention
+        - [FlashAttention generations have distinct hardware and API contracts](../pages/records/dependency/flashattention/cuda/attention/generation-specific-dispatch.md)
+  - flashinfer
+    - cuda
+      - llm
+        - [FlashInfer paged decode: freeze backend selection and graph buffers](../pages/records/dependency/flashinfer/cuda/llm/paged-decode-dispatch.md)
+  - mlx
+    - mlx
+      - execution
+        - [MLX streams: preserve producer-consumer dependency ordering](../pages/records/dependency/mlx/mlx/execution/cross-stream-dependency.md)
+        - [MLX evaluation: distinguish graph construction, submission and readable completion](../pages/records/dependency/mlx/mlx/execution/evaluation-completion.md)
+        - [MLX buffers: graph detachment does not end in-flight storage ownership](../pages/records/dependency/mlx/mlx/execution/post-detachment-buffer-lifetime.md)
+  - pytorch
+    - cuda
+      - compiler
+        - [Inductor CUDA graphs: distinguish compile guards, capture shapes and tensor lifetime](../pages/records/dependency/pytorch/cuda/compiler/cudagraph-shapes-and-lifetimes.md)
+  - transformers
+    - common
+      - llm
+        - [Transformers cache strategies trade compilation, capacity and latency](../pages/records/dependency/transformers/common/llm/kv-cache-strategy-contracts.md)
+  - triton
+    - common
+      - kernel
+        - [Triton fusion trades memory traffic for register and shared-memory pressure](../pages/records/dependency/triton/common/kernel/bandwidth-fusion-resource-limits.md)
+- peer
+  - cache dit
+    - common
+      - diffusion
+        - [Cache-DiT residual reuse needs model- and schedule-specific calibration](../pages/records/peer/cache_dit/common/diffusion/residual-cache-calibration.md)
+  - deepinfer
+    - common
+      - llm
+        - [DeepInfer bounded replay: compact query rows with a derived dependency closure and separately preserved historical state](../pages/records/peer/deepinfer/common/llm/bounded-windowed-replay.md)
+        - [DeepInfer verification budget: spend verification rows by marginal acceptance, not by fixed draft width](../pages/records/peer/deepinfer/common/llm/speculative-verification-budget.md)
+        - [DeepInfer zero-overhead scheduling: defer the previous step's post-process to overlap host prep with device work](../pages/records/peer/deepinfer/common/llm/zero-overhead-deferred-scheduling.md)
+  - lmdeploy
+    - cuda
+      - llm
+        - [LMDeploy KV quantization: preserve capacity gains and latency counterexamples](../pages/records/peer/lmdeploy/cuda/llm/kv-quantization-capacity-cost.md)
+  - qwen3 tts engine
+    - ascend
+      - audio
+        - [Qwen3-TTS codec: cache fixed codebooks and retain request-owned causal state](../pages/records/peer/qwen3_tts_engine/ascend/audio/codec-constants-and-state.md)
+        - [Qwen3-TTS CustomVoice: cache only model-fixed prompt embeddings](../pages/records/peer/qwen3_tts_engine/ascend/audio/fixed-customvoice-prompt.md)
+        - [Qwen3-TTS NPU graphs: batch prefill while preserving request state](../pages/records/peer/qwen3_tts_engine/ascend/audio/graph-batching-state-ownership.md)
+  - sglang
+    - cuda
+      - llm
+        - [SGLang HiCache: reuse prefixes only when transfer beats recomputation](../pages/records/peer/sglang/cuda/llm/hierarchical-prefix-cache.md)
+  - tensorrt llm
+    - cuda
+      - llm
+        - [TensorRT-LLM disaggregation trades phase interference for KV transfer](../pages/records/peer/tensorrt_llm/cuda/llm/prefill-decode-disaggregation.md)
+  - xdit
+    - cuda
+      - diffusion
+        - [xDiT parallelism: separate current-state attention from stale-state pipelines](../pages/records/peer/xdit/cuda/diffusion/parallelism-freshness-and-topology.md)

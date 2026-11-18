@@ -1,0 +1,138 @@
+# Methods
+
+Choose a method by the decision or measurement you need to make.
+
+[All chapters](README.md)
+
+- [Assess serving preemption](../pages/methods/assess-serving-preemption/lesson.md)
+  - references
+    - [Self-contained source notes](../pages/methods/assess-serving-preemption/references/source-notes.md)
+- [Assess a split-backward schedule](../pages/methods/assess-split-backward-schedule/lesson.md)
+  - references
+    - [Split-backward evidence and mechanism reference](../pages/methods/assess-split-backward-schedule/references/source-notes.md)
+- [Audit a Fixed-Workload Claim](../pages/methods/audit-fixed-workload-claim/lesson.md)
+- [Calibrate a serving-simulation shortlist](../pages/methods/calibrate-serving-simulation/lesson.md)
+  - references
+    - [Vidur: source audit and mechanisms](../pages/methods/calibrate-serving-simulation/references/source-notes.md)
+    - [Infera serving-search provenance](../pages/methods/calibrate-serving-simulation/references/infera-serving-search/overview.md)
+- [Checkpoint Recovery Consistency](../pages/methods/checkpoint-recovery-consistency/lesson.md)
+  - references
+    - [DLRover persistence and replica boundaries](../pages/methods/checkpoint-recovery-consistency/references/dlrover-persistence-replicas.md)
+    - [Recovery reference evidence](../pages/methods/checkpoint-recovery-consistency/references/sources.md)
+- [Choose a parallel training plan](../pages/methods/choose-parallel-training-plan/lesson.md)
+  - references
+    - [Parallel-plan evidence and mechanism reference](../pages/methods/choose-parallel-training-plan/references/source-notes.md)
+- [Dense Performance Evidence Taxonomy](../pages/methods/dense-performance-evidence/lesson.md)
+- [Evaluate elastic serving placement](../pages/methods/evaluate-elastic-serving-placement/lesson.md)
+  - references
+    - [Self-contained source notes](../pages/methods/evaluate-elastic-serving-placement/references/source-notes.md)
+- [Inference Benchmark Design](../pages/methods/inference-benchmark-design/lesson.md)
+  - references
+    - [AutoTuneBench: treatment delivery and trial validity](../pages/methods/inference-benchmark-design/references/autotunebench-trial-validity.md)
+    - [Benchmark entry points and a bounded smoke](../pages/methods/inference-benchmark-design/references/benchmark-commands.md)
+    - [Cache-aware ASR stream boundaries](../pages/methods/inference-benchmark-design/references/cache-aware-asr-stream-boundaries.md)
+    - [Dependency-aware TTS playout](../pages/methods/inference-benchmark-design/references/dependency-aware-tts-playout.md)
+    - [VLA benchmark boundaries and closed-loop quality](../pages/methods/inference-benchmark-design/references/embodied-cpp-boundary-and-quality.md)
+    - [GPU measurement validity and attribution of gains](../pages/methods/inference-benchmark-design/references/gpu-measurement-validity.md)
+    - [JustGoal: controlled harness evaluation and kernel acceptance](../pages/methods/inference-benchmark-design/references/justgoal-evaluation-contracts.md)
+    - [NInfer state-restoration and completion contracts](../pages/methods/inference-benchmark-design/references/ninfer-state-and-completion-contracts.md)
+    - [Select benchmarks by task](../pages/methods/inference-benchmark-design/references/task-benchmark-selection.md)
+    - [Xe-Forge: trial identity, evaluator evidence and candidate selection](../pages/methods/inference-benchmark-design/references/xeforge-trial-evidence.md)
+- [Inference Optimization Casebook Pattern](../pages/methods/inference-optimization-casebook/lesson.md)
+  - cases
+    - [Admission occupancy is not whole-run occupancy](../pages/methods/inference-optimization-casebook/cases/admission-drain-occupancy.md)
+    - [Drama3 B300: rejected directions and invalid controls](../pages/methods/inference-optimization-casebook/cases/drama3-rejected-directions.md)
+    - [Qwen Ascend: reported rejected directions](../pages/methods/inference-optimization-casebook/cases/qwen-ascend-rejected-directions.md)
+    - [Qwen B300: rejected directions to check before retrying](../pages/methods/inference-optimization-casebook/cases/qwen-b300-rejected-directions.md)
+- [Kernel Writing Guide](../pages/methods/kernel-writing-guide/lesson.md)
+  - cases
+    - [Causal convolution decision cases](../pages/methods/kernel-writing-guide/cases/causal-conv1d-dispatch-state.md)
+    - [HF Qwen3.5 binding and state cases](../pages/methods/kernel-writing-guide/cases/hf-qwen35-gdn-binding.md)
+    - [SGLang GDN source-contract cases](../pages/methods/kernel-writing-guide/cases/sglang-gdn-source-contract.md)
+    - [vLLM GDN causal-convolution contract](../pages/methods/kernel-writing-guide/cases/vllm-gdn-causal-conv-contract.md)
+    - [vLLM GDN source-contract cases](../pages/methods/kernel-writing-guide/cases/vllm-gdn-source-contract.md)
+  - references
+    - [AKG Affine tail guards](../pages/methods/kernel-writing-guide/references/akg-affine-tail-guards.md)
+    - [Causal convolution forward and update contract](../pages/methods/kernel-writing-guide/references/causal-conv1d-contract.md)
+    - [Transformers Qwen3.5 convolution and GDN binding](../pages/methods/kernel-writing-guide/references/hf-qwen35-gdn-binding.md)
+    - [SGLang GDN and causal-convolution contract](../pages/methods/kernel-writing-guide/references/sglang-gdn-causal-conv-contract.md)
+    - [vLLM GDN causal-convolution contract](../pages/methods/kernel-writing-guide/references/vllm-gdn-causal-conv-contract.md)
+- [Optimization Search Policy](../pages/methods/optimization-search-policy/lesson.md)
+  - cases
+    - [Sarathi-Serve: choosing a chunked-prefill token budget](../pages/methods/optimization-search-policy/cases/sarathi-chunk-budget.md)
+  - references
+    - [DistServe phase-placement constraints](../pages/methods/optimization-search-policy/references/distserve-phase-placement/overview.md)
+    - papers 20261015
+      - [Pack F integration — search and improver evolution](../pages/methods/optimization-search-policy/references/papers-20261015/INTEGRATION_NOTES.md)
+      - [Pack F — which part of an improver should adapt?](../pages/methods/optimization-search-policy/references/papers-20261015/MECHANISMS.md)
+      - [Pack F — next-gate leads only](../pages/methods/optimization-search-policy/references/papers-20261015/NEXT_GATE_LEADS.md)
+      - knowledge
+        - [Candidate knowledge records: adaptation interfaces](../pages/methods/optimization-search-policy/references/papers-20261015/knowledge/adaptation-interfaces.md)
+      - references
+        - [Pack F — exact readset and evidence ledger](../pages/methods/optimization-search-policy/references/papers-20261015/references/source-notes.md)
+      - updates
+        - [Candidate bounded update: optimization-search-policy](../pages/methods/optimization-search-policy/references/papers-20261015/updates/optimization-search-policy.md)
+- [Performance Ceiling Analysis](../pages/methods/performance-ceiling-analysis/lesson.md)
+  - references
+    - [Establish acceptance criteria before search](../pages/methods/performance-ceiling-analysis/references/acceptance-criteria.md)
+    - [FlexGen: conditional feasibility of throughput-oriented offload](../pages/methods/performance-ceiling-analysis/references/flexgen-offload-feasibility.md)
+    - [Checkpoint anchor for L1 weight demand](../pages/methods/performance-ceiling-analysis/references/huggingarch-checkpoint-anchor.md)
+    - [Mooncake: prefix reuse as a conditional cost comparison](../pages/methods/performance-ceiling-analysis/references/mooncake-prefix-reuse-feasibility.md)
+    - [Pure Roofline helper contract](../pages/methods/performance-ceiling-analysis/references/roofline-contract.md)
+    - [Pack A — optimization modeling and experiment governance](../pages/methods/performance-ceiling-analysis/references/papers-20261015/overview.md)
+      - [Pack A integration notes](../pages/methods/performance-ceiling-analysis/references/papers-20261015/INTEGRATION_NOTES.md)
+      - [Pack A: model, shortlist, measure, redirect](../pages/methods/performance-ceiling-analysis/references/papers-20261015/MECHANISMS.md)
+      - [Pack A exact readset and provenance](../pages/methods/performance-ceiling-analysis/references/papers-20261015/READSET.md)
+      - [Static packaging checks](../pages/methods/performance-ceiling-analysis/references/papers-20261015/STATIC_CHECKS.md)
+      - cases
+        - [Candidate decision cases](../pages/methods/performance-ceiling-analysis/references/papers-20261015/cases/decision-cases.md)
+      - govern optimization experiments
+        - [Govern optimization experiments](../pages/methods/performance-ceiling-analysis/references/papers-20261015/govern-optimization-experiments/procedure.md)
+        - references
+          - [InferenceBench: source audit and mechanisms](../pages/methods/performance-ceiling-analysis/references/papers-20261015/govern-optimization-experiments/references/source-notes.md)
+      - knowledge
+        - [Keep bounds, predictions and observations distinct](../pages/methods/performance-ceiling-analysis/references/papers-20261015/knowledge/bounds-predictions-and-decisions.md)
+      - redirect cross layer optimization
+        - [Redirect cross-layer optimization](../pages/methods/performance-ceiling-analysis/references/papers-20261015/redirect-cross-layer-optimization/procedure.md)
+        - references
+          - [FlashVector: source audit and mechanisms](../pages/methods/performance-ceiling-analysis/references/papers-20261015/redirect-cross-layer-optimization/references/source-notes.md)
+      - references
+        - [Agentic Kernel Optimization: pinned original-source extraction](../pages/methods/performance-ceiling-analysis/references/papers-20261015/references/agentic-kernel.md)
+        - [FlashVector: source audit and mechanisms](../pages/methods/performance-ceiling-analysis/references/papers-20261015/references/flashvector.md)
+        - [InferenceBench: source audit and mechanisms](../pages/methods/performance-ceiling-analysis/references/papers-20261015/references/inferencebench.md)
+        - [Prior coverage and incremental delta](../pages/methods/performance-ceiling-analysis/references/papers-20261015/references/prior-coverage.md)
+        - [Vidur: source audit and mechanisms](../pages/methods/performance-ceiling-analysis/references/papers-20261015/references/vidur.md)
+- [Plan activation residency](../pages/methods/plan-activation-residency/lesson.md)
+  - references
+    - [Activation-residency evidence and mechanism reference](../pages/methods/plan-activation-residency/references/source-notes.md)
+- [Repository Evolution Analysis](../pages/methods/repository-evolution-analysis/lesson.md)
+  - references
+    - [Capability presence audit](../pages/methods/repository-evolution-analysis/references/capability-presence-audit.md)
+    - [Worked transition: manager discovery is not consumer reachability](../pages/methods/repository-evolution-analysis/references/rtk-consumer-path-transition.md)
+- [Skill Evolution Playbook](../pages/methods/skill-evolution-playbook/lesson.md)
+- [Training Input Pipeline Decisions](../pages/methods/training-input-pipeline/lesson.md)
+  - references
+    - [Input pipeline reference evidence](../pages/methods/training-input-pipeline/references/sources.md)
+- [Training Cross-Resource Budget Decisions](../pages/methods/training-resource-budget/lesson.md)
+  - references
+    - [Historical MindSpeed adaptive-memory case](../pages/methods/training-resource-budget/references/mindspeed-historical.md)
+    - [MindSpeed historical source readset](../pages/methods/training-resource-budget/references/mindspeed-source-readset.md)
+    - [Cross-resource reference evidence](../pages/methods/training-resource-budget/references/sources.md)
+    - [Stas Bekman scoped decision notes](../pages/methods/training-resource-budget/references/stas-decision-notes.md)
+    - papers 20261015
+      - [Pack C integration proposals](../pages/methods/training-resource-budget/references/papers-20261015/INTEGRATION_NOTES.md)
+      - cases
+        - [Paper-grounded review cases](../pages/methods/training-resource-budget/references/papers-20261015/cases/paper-grounded-cases.md)
+      - knowledge
+        - [Incremental extension to training-offload knowledge](../pages/methods/training-resource-budget/references/papers-20261015/knowledge/offload-delta.md)
+      - notes
+        - [Training memory and scheduling: incremental mechanisms](../pages/methods/training-resource-budget/references/papers-20261015/notes/training-memory-scheduling.md)
+      - references
+        - [Pack C: pinned sources and actual readset](../pages/methods/training-resource-budget/references/papers-20261015/references/source-readset.md)
+- [Video Diffusion Optimization](../pages/methods/video-diffusion-optimization/lesson.md)
+- [Weight Loading and Startup Fixed-Overhead Optimization](../pages/methods/weight-loading-optimization/lesson.md)
+  - references
+    - [Audit streamed expert-cache bytes and overlap](../pages/methods/weight-loading-optimization/references/deepseek-expert-cache-oracles.md)
+    - [fastsafetensors distributed delivery contract](../pages/methods/weight-loading-optimization/references/fastsafetensors-transfer-readset.md)
+    - [Flare preparation and native-serving boundary](../pages/methods/weight-loading-optimization/references/flare-preparation-boundary.md)
+    - [llama.cpp loading provenance](../pages/methods/weight-loading-optimization/references/llama-loading-readset.md)

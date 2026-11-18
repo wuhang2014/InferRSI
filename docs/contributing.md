@@ -42,7 +42,10 @@ command is defined in the implementing module under `infra/platforms/`. That
 module owns the command name and the discovery boundary. Reuse the common AB/BA loop,
 cleanup and adjudication. See [extension contracts](architecture.md#where-to-extend).
 
-For knowledge, edit one named JSON record under
+For handbook lessons and reading paths, edit the Markdown page and keep its
+stable section IDs. [Handbook editing guide](../src/inferrsi/knowledge/data/handbook/EDITING.md)
+
+For catalog contributions, edit one named JSON record under
 `data/repo_packs/<repo>/knowledge/<backend>/<component>/` for contribution sources,
 or `data/knowledge_packs/<dependency|peer>/<repo>/<backend>/<component>/` for
 external sources, and add its navigation link to the owning README. See the

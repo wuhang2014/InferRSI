@@ -2,6 +2,7 @@
   "schema_version": 1,
   "base_branch": "main",
   "protected_paths": [
+    "src/inferrsi/knowledge/data/handbook/**",
     "src/inferrsi/knowledge/data/skill_library/**",
     "src/inferrsi/knowledge/data/knowledge_packs/**",
     "src/inferrsi/knowledge/data/repo_packs/**/knowledge/**",

@@ -1,0 +1,111 @@
+# Frameworks
+
+Follow a tensor, stream, operator or checkpoint through its framework.
+
+[All chapters](README.md)
+
+- diffusers
+  - [Trace Diffusers invocation state](../pages/frameworks/diffusers/diffusers-invocation-state/lesson.md)
+    - references
+      - [Wrapper, scheduler and invocation ownership](../pages/frameworks/diffusers/diffusers-invocation-state/references/ownership.md)
+      - [Diffusers source map](../pages/frameworks/diffusers/diffusers-invocation-state/references/source-map.md)
+      - [Validation choices](../pages/frameworks/diffusers/diffusers-invocation-state/references/validation.md)
+- mlx
+  - [Diagnose MLX evaluation and lifetimes](../pages/frameworks/mlx/lazy-evaluation-stream-lifetimes/lesson.md)
+    - references
+      - [Evaluation, ordering and ownership](../pages/frameworks/mlx/lazy-evaluation-stream-lifetimes/references/execution-lifetime.md)
+      - [MLX source map](../pages/frameworks/mlx/lazy-evaluation-stream-lifetimes/references/source-map.md)
+      - [Validation choices](../pages/frameworks/mlx/lazy-evaluation-stream-lifetimes/references/validation.md)
+- pytorch
+  - [DCP Asynchronous Save Performance](../pages/frameworks/pytorch/dcp-async-save-performance/lesson.md)
+    - references
+      - [DCP source and version boundaries](../pages/frameworks/pytorch/dcp-async-save-performance/references/sources.md)
+  - [PyTorch operating graph](../pages/frameworks/pytorch/pytorch/lesson.md)
+    - references
+      - [Attribution and license resolution](../pages/frameworks/pytorch/pytorch/references/notices.md)
+      - [Repository provenance and refresh contract](../pages/frameworks/pytorch/pytorch/references/repo-provenance.md)
+      - [Repository discovery and coverage](../pages/frameworks/pytorch/pytorch/references/source-directory-coverage.md)
+      - [Source artifact and helper disposition](../pages/frameworks/pytorch/pytorch/references/source-script-map.md)
+      - [Cross-cutting diagnosis](../pages/frameworks/pytorch/pytorch/references/troubleshooting.md)
+    - sub skills
+      - [Compiler and export](../pages/frameworks/pytorch/pytorch/sub-skills/compiler-and-export/lesson.md)
+        - references
+          - [Failure and recovery](../pages/frameworks/pytorch/pytorch/sub-skills/compiler-and-export/references/troubleshooting.md)
+          - [Capture, lowering, export and deployment](../pages/frameworks/pytorch/pytorch/sub-skills/compiler-and-export/references/workflows.md)
+      - [Custom operators and extension](../pages/frameworks/pytorch/pytorch/sub-skills/custom-operators-and-extension/lesson.md)
+        - references
+          - [Failure and recovery](../pages/frameworks/pytorch/pytorch/sub-skills/custom-operators-and-extension/references/troubleshooting.md)
+          - [Define and qualify an operator boundary](../pages/frameworks/pytorch/pytorch/sub-skills/custom-operators-and-extension/references/workflows.md)
+      - [Distributed and checkpoint](../pages/frameworks/pytorch/pytorch/sub-skills/distributed-and-checkpoint/lesson.md)
+        - references
+          - [Failure and recovery](../pages/frameworks/pytorch/pytorch/sub-skills/distributed-and-checkpoint/references/troubleshooting.md)
+          - [Ranks, collectives, sharded state and serialization](../pages/frameworks/pytorch/pytorch/sub-skills/distributed-and-checkpoint/references/workflows.md)
+      - [Installation and build](../pages/frameworks/pytorch/pytorch/sub-skills/installation-and-build/lesson.md)
+        - references
+          - [Failure and recovery](../pages/frameworks/pytorch/pytorch/sub-skills/installation-and-build/references/troubleshooting.md)
+          - [Installation, builds and package identity](../pages/frameworks/pytorch/pytorch/sub-skills/installation-and-build/references/workflows.md)
+      - [Memory streams and graphs](../pages/frameworks/pytorch/pytorch/sub-skills/memory-streams-and-graphs/lesson.md)
+        - references
+          - [Failure and recovery](../pages/frameworks/pytorch/pytorch/sub-skills/memory-streams-and-graphs/references/troubleshooting.md)
+          - [Allocation, asynchronous work and graph addresses](../pages/frameworks/pytorch/pytorch/sub-skills/memory-streams-and-graphs/references/workflows.md)
+      - [Profiling and debugging](../pages/frameworks/pytorch/pytorch/sub-skills/profiling-and-debugging/lesson.md)
+        - references
+          - [Failure and recovery](../pages/frameworks/pytorch/pytorch/sub-skills/profiling-and-debugging/references/troubleshooting.md)
+          - [Reproduce, profile and measure](../pages/frameworks/pytorch/pytorch/sub-skills/profiling-and-debugging/references/workflows.md)
+      - [Tensor dispatch autograd](../pages/frameworks/pytorch/pytorch/sub-skills/tensor-dispatch-autograd/lesson.md)
+        - references
+          - [Failure and recovery](../pages/frameworks/pytorch/pytorch/sub-skills/tensor-dispatch-autograd/references/troubleshooting.md)
+          - [Tensor, dispatch and gradient contracts](../pages/frameworks/pytorch/pytorch/sub-skills/tensor-dispatch-autograd/references/workflows.md)
+      - [Training and data](../pages/frameworks/pytorch/pytorch/sub-skills/training-and-data/lesson.md)
+        - references
+          - [Failure and recovery](../pages/frameworks/pytorch/pytorch/sub-skills/training-and-data/references/troubleshooting.md)
+          - [Training, evaluation, data and precision](../pages/frameworks/pytorch/pytorch/sub-skills/training-and-data/references/workflows.md)
+- torch npu
+  - [TorchNPU operating graph](../pages/frameworks/torch-npu/torch-npu/lesson.md)
+    - references
+      - [Capability inventory](../pages/frameworks/torch-npu/torch-npu/references/capability-inventory.md)
+      - [Repository provenance](../pages/frameworks/torch-npu/torch-npu/references/repo-provenance.md)
+      - [Evidence ledger and reading boundary](../pages/frameworks/torch-npu/torch-npu/references/source-map.md)
+      - [Source script decisions](../pages/frameworks/torch-npu/torch-npu/references/source-script-inventory.md)
+      - [Support workflows and capability boundaries](../pages/frameworks/torch-npu/torch-npu/references/support-workflows.md)
+    - sub skills
+      - [Run and diagnose HCCL](../pages/frameworks/torch-npu/torch-npu/sub-skills/distributed-and-hccl/lesson.md)
+        - references
+          - [Launch and communication contracts](../pages/frameworks/torch-npu/torch-npu/sub-skills/distributed-and-hccl/references/hccl.md)
+          - [Source provenance for distributed-and-hccl](../pages/frameworks/torch-npu/torch-npu/sub-skills/distributed-and-hccl/references/source-map.md)
+          - [HCCL troubleshooting](../pages/frameworks/torch-npu/torch-npu/sub-skills/distributed-and-hccl/references/troubleshooting.md)
+      - [Choose capture and compilation paths](../pages/frameworks/torch-npu/torch-npu/sub-skills/graph-and-compile/lesson.md)
+        - references
+          - [Capture, compilation and replay](../pages/frameworks/torch-npu/torch-npu/sub-skills/graph-and-compile/references/graphs.md)
+          - [Source provenance for graph-and-compile](../pages/frameworks/torch-npu/torch-npu/sub-skills/graph-and-compile/references/source-map.md)
+          - [Graph and compiler troubleshooting](../pages/frameworks/torch-npu/torch-npu/sub-skills/graph-and-compile/references/troubleshooting.md)
+      - [Install and qualify TorchNPU](../pages/frameworks/torch-npu/torch-npu/sub-skills/installation-and-compatibility/lesson.md)
+        - references
+          - [Source provenance for installation-and-compatibility](../pages/frameworks/torch-npu/torch-npu/sub-skills/installation-and-compatibility/references/source-map.md)
+          - [Stack selection and installation](../pages/frameworks/torch-npu/torch-npu/sub-skills/installation-and-compatibility/references/stack.md)
+          - [Installation troubleshooting](../pages/frameworks/torch-npu/torch-npu/sub-skills/installation-and-compatibility/references/troubleshooting.md)
+      - [Trace memory and stream lifetimes](../pages/frameworks/torch-npu/torch-npu/sub-skills/memory-streams-and-events/lesson.md)
+        - references
+          - [Ordering and ownership](../pages/frameworks/torch-npu/torch-npu/sub-skills/memory-streams-and-events/references/lifetimes.md)
+          - [Source provenance for memory-streams-and-events](../pages/frameworks/torch-npu/torch-npu/sub-skills/memory-streams-and-events/references/source-map.md)
+          - [Memory and event troubleshooting](../pages/frameworks/torch-npu/torch-npu/sub-skills/memory-streams-and-events/references/troubleshooting.md)
+      - [Develop and validate an NPU operator](../pages/frameworks/torch-npu/torch-npu/sub-skills/operator-development/lesson.md)
+        - references
+          - [Operator implementation procedure](../pages/frameworks/torch-npu/torch-npu/sub-skills/operator-development/references/development.md)
+          - [Source provenance for operator-development](../pages/frameworks/torch-npu/torch-npu/sub-skills/operator-development/references/source-map.md)
+          - [Operator troubleshooting](../pages/frameworks/torch-npu/torch-npu/sub-skills/operator-development/references/troubleshooting.md)
+      - [Trace registration and dispatch](../pages/frameworks/torch-npu/torch-npu/sub-skills/privateuse1-and-dispatch/lesson.md)
+        - references
+          - [Registration and dispatch mechanisms](../pages/frameworks/torch-npu/torch-npu/sub-skills/privateuse1-and-dispatch/references/dispatch.md)
+          - [Source provenance for privateuse1-and-dispatch](../pages/frameworks/torch-npu/torch-npu/sub-skills/privateuse1-and-dispatch/references/source-map.md)
+          - [Dispatch troubleshooting](../pages/frameworks/torch-npu/torch-npu/sub-skills/privateuse1-and-dispatch/references/troubleshooting.md)
+      - [Profile and debug TorchNPU](../pages/frameworks/torch-npu/torch-npu/sub-skills/profiling-and-debugging/lesson.md)
+        - references
+          - [Profiling and diagnostic workflow](../pages/frameworks/torch-npu/torch-npu/sub-skills/profiling-and-debugging/references/profiling.md)
+          - [Source provenance for profiling-and-debugging](../pages/frameworks/torch-npu/torch-npu/sub-skills/profiling-and-debugging/references/source-map.md)
+          - [Profiling troubleshooting](../pages/frameworks/torch-npu/torch-npu/sub-skills/profiling-and-debugging/references/troubleshooting.md)
+      - [Validate training and precision](../pages/frameworks/torch-npu/torch-npu/sub-skills/training-and-precision/lesson.md)
+        - references
+          - [Source provenance for training-and-precision](../pages/frameworks/torch-npu/torch-npu/sub-skills/training-and-precision/references/source-map.md)
+          - [Precision and training procedure](../pages/frameworks/torch-npu/torch-npu/sub-skills/training-and-precision/references/training.md)
+          - [Precision troubleshooting](../pages/frameworks/torch-npu/torch-npu/sub-skills/training-and-precision/references/troubleshooting.md)

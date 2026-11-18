@@ -112,6 +112,12 @@ are distinct from `knowledge search`, whose package catalog filters
 
 ### Search packaged records — `knowledge search` / `knowledge show`
 
+To browse the teaching edition, use `inferrsi knowledge handbook contents`.
+Its read-only `search`, `read`, `links` and `compose` commands work with
+individual sections and reading paths. Search accepts `--kind`, `--under`
+and `--limit`. Read accepts a stable ID or alias and an optional exact
+`--revision`. All four commands support `--json`. [Handbook examples](../src/inferrsi/knowledge/data/handbook/README.md)
+
 - **Inputs:** query words plus optional `--tier`, `--repo-type`, `--backend`, `--scenario`, `--limit`, `--json`, `--explain`; `show` takes one record ID.
 - **Scope:** the installed package catalog (`repo_packs`, `knowledge_packs`) only.
 - **Output:** tab-separated record lines (id, status, backend, title), or a JSON list with `--json`; `--explain` returns a JSON envelope with `items` and `retrieval` (entry, ranking, scores and counts). Python uses `search_knowledge(..., explain=True)` for that envelope. `show` prints one full record as JSON.

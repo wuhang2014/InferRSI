@@ -1,0 +1,365 @@
+# Inference engines
+
+Study an engine's request lifecycle, integration points and validation.
+
+[All chapters](README.md)
+
+- afd plugin
+  - [Audit AFD P2P exchanges](../pages/repositories/afd-plugin/audit-afd-p2p-exchanges/lesson.md)
+    - references
+      - [AFD P2P source notes](../pages/repositories/afd-plugin/audit-afd-p2p-exchanges/references/source-notes.md)
+- [Audit ComfyUI cache and residency](../pages/repositories/comfy-ui/lesson.md)
+  - references
+    - [Workflow-output cache validity](../pages/repositories/comfy-ui/references/graph-cache-invalidation.md)
+    - [Model-weight residency is a separate lifetime](../pages/repositories/comfy-ui/references/model-residency.md)
+    - [Source and scope](../pages/repositories/comfy-ui/references/repo-provenance.md)
+    - [Validation boundaries](../pages/repositories/comfy-ui/references/validation-boundaries.md)
+- deepinfer
+  - [Bound a windowed-attention replay](../pages/repositories/deepinfer/bound-windowed-attention-replay/lesson.md)
+    - references
+      - [Source notes: bound windowed-attention replay](../pages/repositories/deepinfer/bound-windowed-attention-replay/references/source-notes.md)
+      - [Validation: bound windowed-attention replay](../pages/repositories/deepinfer/bound-windowed-attention-replay/references/validation.md)
+  - [Budget speculative verification](../pages/repositories/deepinfer/budget-speculative-verification/lesson.md)
+    - references
+      - [Source notes: budget speculative verification](../pages/repositories/deepinfer/budget-speculative-verification/references/source-notes.md)
+      - [Validation: budget speculative verification](../pages/repositories/deepinfer/budget-speculative-verification/references/validation.md)
+- [DwarfStar inference engineering](../pages/repositories/dwarfstar/lesson.md)
+  - references
+    - [Source and method provenance](../pages/repositories/dwarfstar/references/repo-provenance.md)
+  - sub skills
+    - [Qualify speculation and distributed execution](../pages/repositories/dwarfstar/sub-skills/qualification/lesson.md)
+      - references
+        - [Qualification troubleshooting](../pages/repositories/dwarfstar/sub-skills/qualification/references/troubleshooting.md)
+        - [Verification contract](../pages/repositories/dwarfstar/sub-skills/qualification/references/verification-contract.md)
+    - [DwarfStar runtime and memory](../pages/repositories/dwarfstar/sub-skills/runtime-memory/lesson.md)
+      - references
+        - [DwarfStar memory ledger and placement invariants](../pages/repositories/dwarfstar/sub-skills/runtime-memory/references/memory-ledger.md)
+        - [Runtime-memory troubleshooting](../pages/repositories/dwarfstar/sub-skills/runtime-memory/references/troubleshooting.md)
+    - [DwarfStar serving and state](../pages/repositories/dwarfstar/sub-skills/serving-state/lesson.md)
+      - references
+        - [Serving-state contracts](../pages/repositories/dwarfstar/sub-skills/serving-state/references/state-contracts.md)
+        - [Serving-state troubleshooting](../pages/repositories/dwarfstar/sub-skills/serving-state/references/troubleshooting.md)
+- flare local inference
+  - [Audit Flare session lifetimes](../pages/repositories/flare-local-inference/audit-flare-session-lifecycle/lesson.md)
+    - references
+      - [Admission and restoration diagnostics](../pages/repositories/flare-local-inference/audit-flare-session-lifecycle/references/diagnostics.md)
+      - [Complete state and lifetimes](../pages/repositories/flare-local-inference/audit-flare-session-lifecycle/references/lifecycle.md)
+      - [Flare source map](../pages/repositories/flare-local-inference/audit-flare-session-lifecycle/references/source-notes.md)
+- h3 c
+  - [Audit h3.c runtime residency and numerical paths](../pages/repositories/h3-c/audit-h3-runtime-residency/lesson.md)
+    - references
+      - [Worked preparation: MiniMax-H3 on a 64 GiB Apple Silicon target](../pages/repositories/h3-c/audit-h3-runtime-residency/references/minimax-h3-apple.md)
+      - [Phase ownership and schedule-dependent state](../pages/repositories/h3-c/audit-h3-runtime-residency/references/phase-residency.md)
+      - [Metal precision, approximation and SSD tradeoffs](../pages/repositories/h3-c/audit-h3-runtime-residency/references/precision-and-streaming.md)
+      - [Pinned h3.c source and construction scope](../pages/repositories/h3-c/audit-h3-runtime-residency/references/source-notes.md)
+      - [Third-party notices](../pages/repositories/h3-c/audit-h3-runtime-residency/references/THIRD_PARTY_NOTICES.md)
+      - [Verification recipe and current limits](../pages/repositories/h3-c/audit-h3-runtime-residency/references/validation.md)
+- h3 metal
+  - [Audit h3-metal FastH3 semantics](../pages/repositories/h3-metal/audit-h3-metal-fasth3-semantics/lesson.md)
+    - references
+      - [Offline preflight contract](../pages/repositories/h3-metal/audit-h3-metal-fasth3-semantics/references/preflight.md)
+      - [Provenance and license boundaries](../pages/repositories/h3-metal/audit-h3-metal-fasth3-semantics/references/repo-provenance.md)
+      - [FastH3 semantic contracts and falsifiers](../pages/repositories/h3-metal/audit-h3-metal-fasth3-semantics/references/semantic-contracts.md)
+      - [Source scope, candidates and excluded scripts](../pages/repositories/h3-metal/audit-h3-metal-fasth3-semantics/references/source-notes.md)
+      - [Third-party notices](../pages/repositories/h3-metal/audit-h3-metal-fasth3-semantics/references/THIRD_PARTY_NOTICES.md)
+      - [Troubleshooting by discriminating check](../pages/repositories/h3-metal/audit-h3-metal-fasth3-semantics/references/troubleshooting.md)
+- [Husky document-derived research](../pages/repositories/husky/lesson.md)
+  - references
+    - [Bounded author-report inventory](../pages/repositories/husky/references/author-report.md)
+    - [Document provenance and method adaptation](../pages/repositories/husky/references/repo-provenance.md)
+    - [Research-boundary diagnostics](../pages/repositories/husky/references/troubleshooting.md)
+    - [Original verification protocol](../pages/repositories/husky/references/verification-protocol.md)
+- [Lily inference engineering](../pages/repositories/lily/lesson.md)
+  - references
+    - [Source and method provenance](../pages/repositories/lily/references/repo-provenance.md)
+  - sub skills
+    - [Lily model and runtime](../pages/repositories/lily/sub-skills/model-runtime/lesson.md)
+      - references
+        - [Lily checkpoint, tensor and state contract](../pages/repositories/lily/sub-skills/model-runtime/references/model-and-memory.md)
+        - [Model-runtime troubleshooting](../pages/repositories/lily/sub-skills/model-runtime/references/troubleshooting.md)
+    - [Qualify native behavior and benchmark evidence](../pages/repositories/lily/sub-skills/qualification/lesson.md)
+      - references
+        - [Qualification troubleshooting](../pages/repositories/lily/sub-skills/qualification/references/troubleshooting.md)
+        - [Lily verification contract](../pages/repositories/lily/sub-skills/qualification/references/verification-contract.md)
+    - [Lily serving and session cache](../pages/repositories/lily/sub-skills/serving-cache/lesson.md)
+      - references
+        - [Lily API and session contracts](../pages/repositories/lily/sub-skills/serving-cache/references/api-and-session.md)
+        - [Lily interface and cache diagnostics](../pages/repositories/lily/sub-skills/serving-cache/references/troubleshooting.md)
+- [Lithos Metal operating guide](../pages/repositories/lithos-metal/lesson.md)
+  - references
+    - [Source notices](../pages/repositories/lithos-metal/references/notices.md)
+    - [Package and API contract](../pages/repositories/lithos-metal/references/package-api.md)
+    - [Repository provenance](../pages/repositories/lithos-metal/references/repo-provenance.md)
+    - [Pinned source readset](../pages/repositories/lithos-metal/references/source-notes.md)
+    - [Cross-route troubleshooting](../pages/repositories/lithos-metal/references/troubleshooting.md)
+  - sub skills
+    - [Compile and qualify a fusion region](../pages/repositories/lithos-metal/sub-skills/compile-fusion/lesson.md)
+      - references
+        - [Compiler and fusion mechanisms](../pages/repositories/lithos-metal/sub-skills/compile-fusion/references/mechanisms.md)
+        - [Compilation and fusion failures](../pages/repositories/lithos-metal/sub-skills/compile-fusion/references/troubleshooting.md)
+    - [Trace generation and speculative state](../pages/repositories/lithos-metal/sub-skills/generation-state/lesson.md)
+      - references
+        - [Generation and DSpark state contracts](../pages/repositories/lithos-metal/sub-skills/generation-state/references/state-machine.md)
+        - [Generation-state failures](../pages/repositories/lithos-metal/sub-skills/generation-state/references/troubleshooting.md)
+    - [Validate serving and cache ownership](../pages/repositories/lithos-metal/sub-skills/serving-cache/lesson.md)
+      - references
+        - [Serving and cache failures](../pages/repositories/lithos-metal/sub-skills/serving-cache/references/troubleshooting.md)
+        - [Serving, cache and release workflows](../pages/repositories/lithos-metal/sub-skills/serving-cache/references/workflows.md)
+- llama cpp
+  - [Audit llama.cpp runtime state](../pages/repositories/llama-cpp/audit-llama-runtime-state/lesson.md)
+    - references
+      - [Pinned llama.cpp runtime-state contracts](../pages/repositories/llama-cpp/audit-llama-runtime-state/references/source-notes.md)
+- lmcache
+  - [KV Cache Tier Management](../pages/repositories/lmcache/kv-tier-management/lesson.md)
+- [Local Dream Android diffusion boundary audit](../pages/repositories/local-dream/lesson.md)
+  - references
+    - [Android desired state, readiness and remote-host boundaries](../pages/repositories/local-dream/references/android-lifecycle.md)
+    - [Native dispatch, residency, cancellation and prompt-cache contracts](../pages/repositories/local-dream/references/native-contracts.md)
+    - [Separate APK, CPU loader and DSP artifacts](../pages/repositories/local-dream/references/packaging-and-abi.md)
+    - [Source identity, extraction depth and rights](../pages/repositories/local-dream/references/repo-provenance.md)
+- [mistral.rs Metal paged-attention contracts](../pages/repositories/mistral-rs/lesson.md)
+  - references
+    - [Repository and method provenance](../pages/repositories/mistral-rs/references/repo-provenance.md)
+    - [Scope, negative boundaries and attribution](../pages/repositories/mistral-rs/references/scope-and-notices.md)
+  - sub skills
+    - [Paged-decode metadata and workspace](../pages/repositories/mistral-rs/sub-skills/decode-contract/lesson.md)
+      - references
+        - [Metadata-only helper](../pages/repositories/mistral-rs/sub-skills/decode-contract/references/helper-contract.md)
+        - [Decode layout and feature contracts](../pages/repositories/mistral-rs/sub-skills/decode-contract/references/layout-and-features.md)
+        - [Decode troubleshooting](../pages/repositories/mistral-rs/sub-skills/decode-contract/references/troubleshooting.md)
+        - [Instantaneous scratch versus capacity and execution](../pages/repositories/mistral-rs/sub-skills/decode-contract/references/workspace-and-evidence.md)
+    - [Paged-prefill contracts](../pages/repositories/mistral-rs/sub-skills/prefill-contract/lesson.md)
+      - references
+        - [Declared metadata/workspace helper](../pages/repositories/mistral-rs/sub-skills/prefill-contract/references/helper-contract.md)
+        - [Host shape, metadata and kernel consumer](../pages/repositories/mistral-rs/sub-skills/prefill-contract/references/prefill-and-metadata.md)
+        - [Prefill troubleshooting](../pages/repositories/mistral-rs/sub-skills/prefill-contract/references/troubleshooting.md)
+    - [Actual-model Metal prewarm and evidence](../pages/repositories/mistral-rs/sub-skills/qualification/lesson.md)
+      - references
+        - [Prewarm coverage and native evidence](../pages/repositories/mistral-rs/sub-skills/qualification/references/prewarm-and-evidence.md)
+        - [Qualification troubleshooting](../pages/repositories/mistral-rs/sub-skills/qualification/references/troubleshooting.md)
+        - [Offline warmup boundary inventory](../pages/repositories/mistral-rs/sub-skills/qualification/references/warmup-inventory.md)
+- [MLC LLM compiled Metal and runtime contracts](../pages/repositories/mlc-llm/lesson.md)
+  - references
+    - [Source and dependency identity](../pages/repositories/mlc-llm/references/repo-provenance.md)
+    - [Scope and source-specific notices](../pages/repositories/mlc-llm/references/scope-and-notices.md)
+  - sub skills
+    - [Artifact Contract](../pages/repositories/mlc-llm/sub-skills/artifact-contract/lesson.md)
+      - references
+        - [Artifact contract mechanisms](../pages/repositories/mlc-llm/sub-skills/artifact-contract/references/contract-mechanisms.md)
+        - [Declaration helper contract](../pages/repositories/mlc-llm/sub-skills/artifact-contract/references/helper-contract.md)
+        - [Artifact contract troubleshooting](../pages/repositories/mlc-llm/sub-skills/artifact-contract/references/troubleshooting.md)
+    - [Apple target to actual Metal runtime](../pages/repositories/mlc-llm/sub-skills/metal-build-runtime/lesson.md)
+      - references
+        - [Apple target declaration helper](../pages/repositories/mlc-llm/sub-skills/metal-build-runtime/references/helper-contract.md)
+        - [Pinned TVM module, payload and storage/stream consumer](../pages/repositories/mlc-llm/sub-skills/metal-build-runtime/references/modules-and-streams.md)
+        - [Exact native discriminators, not name-derived claims](../pages/repositories/mlc-llm/sub-skills/metal-build-runtime/references/native-evidence.md)
+        - [Apple presets, host, SDK and exported identity](../pages/repositories/mlc-llm/sub-skills/metal-build-runtime/references/targets-and-export.md)
+        - [Build/runtime troubleshooting](../pages/repositories/mlc-llm/sub-skills/metal-build-runtime/references/troubleshooting.md)
+    - [Compiled limits versus runtime cache configuration](../pages/repositories/mlc-llm/sub-skills/runtime-kv-limits/lesson.md)
+      - references
+        - [Generic cache IR, target lowering and native evidence](../pages/repositories/mlc-llm/sub-skills/runtime-kv-limits/references/cache-lowering-and-evidence.md)
+        - [Declared-limit helper contract](../pages/repositories/mlc-llm/sub-skills/runtime-kv-limits/references/helper-contract.md)
+        - [Limit reconciliation and workspace provenance](../pages/repositories/mlc-llm/sub-skills/runtime-kv-limits/references/limits-and-workspace.md)
+        - [Limit and cache troubleshooting](../pages/repositories/mlc-llm/sub-skills/runtime-kv-limits/references/troubleshooting.md)
+- mlx lm
+  - [Trace MLX-LM generation and cache lifecycle](../pages/repositories/mlx-lm/generation-cache-lifecycle/lesson.md)
+    - references
+      - [Cache identity and stop ownership](../pages/repositories/mlx-lm/generation-cache-lifecycle/references/cache-stop.md)
+      - [Generation and batch state](../pages/repositories/mlx-lm/generation-cache-lifecycle/references/generation-batch.md)
+      - [MLX-LM source map](../pages/repositories/mlx-lm/generation-cache-lifecycle/references/source-map.md)
+      - [Validation plan](../pages/repositories/mlx-lm/generation-cache-lifecycle/references/validation.md)
+- [MLX Swift LM ownership and recurrent Metal contracts](../pages/repositories/mlx-swift-lm/lesson.md)
+  - references
+    - [Repository and method provenance](../pages/repositories/mlx-swift-lm/references/repo-provenance.md)
+    - [Scope, excluded surfaces and source-specific rights](../pages/repositories/mlx-swift-lm/references/scope-and-notices.md)
+  - sub skills
+    - [Gated-delta state and execution contract](../pages/repositories/mlx-swift-lm/sub-skills/gated-delta-contract/lesson.md)
+      - references
+        - [GDN declaration screener](../pages/repositories/mlx-swift-lm/sub-skills/gated-delta-contract/references/helper-contract.md)
+        - [Recurrence and carried-state ownership](../pages/repositories/mlx-swift-lm/sub-skills/gated-delta-contract/references/recurrence-and-state.md)
+        - [Gated-delta troubleshooting](../pages/repositories/mlx-swift-lm/sub-skills/gated-delta-contract/references/troubleshooting.md)
+        - [Native discriminators and evidence limits](../pages/repositories/mlx-swift-lm/sub-skills/gated-delta-contract/references/verification-boundaries.md)
+    - [Generation ownership and deterministic cleanup](../pages/repositories/mlx-swift-lm/sub-skills/generation-lifecycle/lesson.md)
+      - references
+        - [Explicit generation evidence records](../pages/repositories/mlx-swift-lm/sub-skills/generation-lifecycle/references/evidence-schema.md)
+        - [Native evidence boundaries](../pages/repositories/mlx-swift-lm/sub-skills/generation-lifecycle/references/native-evidence.md)
+        - [Source ownership and termination contract](../pages/repositories/mlx-swift-lm/sub-skills/generation-lifecycle/references/ownership-and-termination.md)
+        - [Generation-lifecycle troubleshooting](../pages/repositories/mlx-swift-lm/sub-skills/generation-lifecycle/references/troubleshooting.md)
+- [Project Maya inference engineering](../pages/repositories/project-maya/lesson.md)
+  - references
+    - [Source and asset license boundaries](../pages/repositories/project-maya/references/license-boundaries.md)
+    - [Source and method provenance](../pages/repositories/project-maya/references/repo-provenance.md)
+    - [Cross-cutting diagnosis and stop conditions](../pages/repositories/project-maya/references/troubleshooting.md)
+  - sub skills
+    - [Maya model and runtime planning](../pages/repositories/project-maya/sub-skills/model-runtime/lesson.md)
+      - references
+        - [Model identity, representations and physical memory](../pages/repositories/project-maya/sub-skills/model-runtime/references/model-and-memory.md)
+        - [Attribution and distinct license boundaries](../pages/repositories/project-maya/sub-skills/model-runtime/references/notices.md)
+        - [Runtime-planning diagnosis](../pages/repositories/project-maya/sub-skills/model-runtime/references/troubleshooting.md)
+    - [Qualification](../pages/repositories/project-maya/sub-skills/qualification/lesson.md)
+      - references
+        - [Qualification troubleshooting](../pages/repositories/project-maya/sub-skills/qualification/references/troubleshooting.md)
+        - [Verification contract](../pages/repositories/project-maya/sub-skills/qualification/references/verification-contract.md)
+    - [Serving state and recovery](../pages/repositories/project-maya/sub-skills/serving-state/lesson.md)
+      - references
+        - [API history and background lifecycle](../pages/repositories/project-maya/sub-skills/serving-state/references/api-and-history.md)
+        - [Native conversation state and parallel ownership](../pages/repositories/project-maya/sub-skills/serving-state/references/native-state.md)
+        - [Serving-state troubleshooting](../pages/repositories/project-maya/sub-skills/serving-state/references/troubleshooting.md)
+- [SGLang inference engineering](../pages/repositories/sglang/lesson.md)
+  - [Audit SGLang diffusion lifetimes](../pages/repositories/sglang/audit-sglang-diffusion-lifetimes/lesson.md)
+    - references
+      - [SGLang diffusion lifetime source notes](../pages/repositories/sglang/audit-sglang-diffusion-lifetimes/references/source-notes.md)
+  - references
+    - [Architecture and memory](../pages/repositories/sglang/references/architecture-and-memory.md)
+    - [Native candidates](../pages/repositories/sglang/references/native-candidates.md)
+    - [Parallelism and implementation boundaries](../pages/repositories/sglang/references/parallelism-and-extension.md)
+    - [Repository provenance](../pages/repositories/sglang/references/repo-provenance.md)
+    - [Pinned source map](../pages/repositories/sglang/references/source-map.md)
+    - [Bounded tuning and validation](../pages/repositories/sglang/references/tuning-and-validation.md)
+  - sub skills
+    - [Parallelism and extension](../pages/repositories/sglang/sub-skills/sglang-parallel-extension/lesson.md)
+    - [Runtime and memory](../pages/repositories/sglang/sub-skills/sglang-runtime-memory/lesson.md)
+    - [Tuning and validation](../pages/repositories/sglang/sub-skills/sglang-tuning-validation/lesson.md)
+- [SGLang-Omni](../pages/repositories/sglang-omni/lesson.md)
+  - references
+    - [Repository provenance](../pages/repositories/sglang-omni/references/repo-provenance.md)
+    - [Snapshot and dependencies](../pages/repositories/sglang-omni/references/snapshot.md)
+  - sub skills
+    - [Architecture and search space](../pages/repositories/sglang-omni/sub-skills/sglang-omni-architecture/lesson.md)
+      - references
+        - [Runtime contracts and optimization surface](../pages/repositories/sglang-omni/sub-skills/sglang-omni-architecture/references/runtime.md)
+    - [Extension and validation](../pages/repositories/sglang-omni/sub-skills/sglang-omni-extension/lesson.md)
+      - references
+        - [Integration and test map](../pages/repositories/sglang-omni/sub-skills/sglang-omni-extension/references/integration.md)
+    - [Serving and tuning](../pages/repositories/sglang-omni/sub-skills/sglang-omni-serving/lesson.md)
+      - references
+        - [Recipes, configuration and experiment contract](../pages/repositories/sglang-omni/sub-skills/sglang-omni-serving/references/recipes-and-tuning.md)
+- [Splash inference engineering](../pages/repositories/splash/lesson.md)
+  - references
+    - [Source and method provenance](../pages/repositories/splash/references/repo-provenance.md)
+  - sub skills
+    - [Qualify DFlash2, numerical changes and service measurements](../pages/repositories/splash/sub-skills/qualification/lesson.md)
+      - references
+        - [Qualification troubleshooting](../pages/repositories/splash/sub-skills/qualification/references/troubleshooting.md)
+        - [Splash verification contract](../pages/repositories/splash/sub-skills/qualification/references/verification-contract.md)
+    - [Splash runtime planning](../pages/repositories/splash/sub-skills/runtime-planning/lesson.md)
+      - references
+        - [Splash memory and format contracts](../pages/repositories/splash/sub-skills/runtime-planning/references/memory-and-formats.md)
+        - [Runtime-planning troubleshooting](../pages/repositories/splash/sub-skills/runtime-planning/references/troubleshooting.md)
+    - [Splash serving and cache](../pages/repositories/splash/sub-skills/serving-cache/lesson.md)
+      - references
+        - [Splash state and API contracts](../pages/repositories/splash/sub-skills/serving-cache/references/state-and-api.md)
+        - [Splash serving/cache diagnostics](../pages/repositories/splash/sub-skills/serving-cache/references/troubleshooting.md)
+- stable diffusion cpp
+  - [Audit diffusion weight and workspace residency](../pages/repositories/stable-diffusion-cpp/audit-sd-cpp-residency/lesson.md)
+    - references
+      - [Loader, byte delivery and storage ownership](../pages/repositories/stable-diffusion-cpp/audit-sd-cpp-residency/references/loader-storage-boundaries.md)
+      - [Weight, runtime and segment lifetime](../pages/repositories/stable-diffusion-cpp/audit-sd-cpp-residency/references/phase-residency.md)
+      - [Source scope and image call path](../pages/repositories/stable-diffusion-cpp/audit-sd-cpp-residency/references/source-notes.md)
+      - [Validation boundaries](../pages/repositories/stable-diffusion-cpp/audit-sd-cpp-residency/references/validation-boundaries.md)
+- [Strata inference engineering](../pages/repositories/strata/lesson.md)
+  - references
+    - [Generating a Strata-like inference engine with AI: analysis and search space](../pages/repositories/strata/references/design-space-analysis.md)
+    - [Provenance and refresh boundary](../pages/repositories/strata/references/repo-provenance.md)
+    - [Trial data contract](../pages/repositories/strata/references/trial-format.md)
+    - [Cross-cutting troubleshooting](../pages/repositories/strata/references/troubleshooting.md)
+  - sub skills
+    - [Strata design space](../pages/repositories/strata/sub-skills/design-space/lesson.md)
+      - references
+        - [Strata: architecture and constrained search space](../pages/repositories/strata/sub-skills/design-space/references/design-space.md)
+    - [Tune execution](../pages/repositories/strata/sub-skills/tune-execution/lesson.md)
+      - references
+        - [Controlled tuning procedure](../pages/repositories/strata/sub-skills/tune-execution/references/tuning.md)
+    - [Validate a Strata engine candidate](../pages/repositories/strata/sub-skills/validate-engine/lesson.md)
+      - references
+        - [Validation cookbook](../pages/repositories/strata/sub-skills/validate-engine/references/validation.md)
+- [vLLM inference engine](../pages/repositories/vllm/lesson.md)
+  - [Audit vLLM KV lifetimes](../pages/repositories/vllm/audit-vllm-kv-lifetimes/lesson.md)
+    - references
+      - [Source notes: vLLM KV lifetimes](../pages/repositories/vllm/audit-vllm-kv-lifetimes/references/source-notes.md)
+  - [Diagnose vLLM admission pressure](../pages/repositories/vllm/diagnose-vllm-admission-pressure/lesson.md)
+    - references
+      - [Source notes: vLLM admission pressure](../pages/repositories/vllm/diagnose-vllm-admission-pressure/references/source-notes.md)
+      - papers 20261015
+        - [Pack B integration proposal: admission, batching, preemption, migration, elasticity](../pages/repositories/vllm/diagnose-vllm-admission-pressure/references/papers-20261015/INTEGRATION_NOTES.md)
+        - cases
+          - [Candidate case: enough cluster memory, no instance admits the waiting prompt](../pages/repositories/vllm/diagnose-vllm-admission-pressure/references/papers-20261015/cases/migration-is-not-free-memory.md)
+          - [Candidate case: a long prefill needs a larger group than its decode](../pages/repositories/vllm/diagnose-vllm-admission-pressure/references/papers-20261015/cases/parallelism-change-with-state-cost.md)
+          - [Candidate case: short-request queueing with a growing suspended-state set](../pages/repositories/vllm/diagnose-vllm-admission-pressure/references/papers-20261015/cases/preemption-under-kv-pressure.md)
+        - knowledge
+          - [Scheduling choices alter state lifetime, placement, or execution scope](../pages/repositories/vllm/diagnose-vllm-admission-pressure/references/papers-20261015/knowledge/scheduling-state-boundaries.md)
+        - notes
+          - [FastServe: preemption must budget its suspended state](../pages/repositories/vllm/diagnose-vllm-admission-pressure/references/papers-20261015/notes/fastserve.md)
+          - [Llumnix: migration is a scheduling primitive, not free capacity](../pages/repositories/vllm/diagnose-vllm-admission-pressure/references/papers-20261015/notes/llumnix.md)
+          - [LoongServe: elasticity requires separate admission, placement, and communication gates](../pages/repositories/vllm/diagnose-vllm-admission-pressure/references/papers-20261015/notes/loongserve.md)
+          - [Orca: iteration boundaries, selective batching, and conservative admission](../pages/repositories/vllm/diagnose-vllm-admission-pressure/references/papers-20261015/notes/orca.md)
+        - references
+          - [FastServe exact source and readset](../pages/repositories/vllm/diagnose-vllm-admission-pressure/references/papers-20261015/references/fastserve-readset.md)
+          - [Llumnix pinned readset and source evidence](../pages/repositories/vllm/diagnose-vllm-admission-pressure/references/papers-20261015/references/llumnix-readset.md)
+          - [LoongServe pinned readset and source evidence](../pages/repositories/vllm/diagnose-vllm-admission-pressure/references/papers-20261015/references/loongserve-readset.md)
+          - [Orca exact source and readset](../pages/repositories/vllm/diagnose-vllm-admission-pressure/references/papers-20261015/references/orca-readset.md)
+  - references
+    - [Repository provenance](../pages/repositories/vllm/references/repo-provenance.md)
+  - sub skills
+    - [Architecture and search space](../pages/repositories/vllm/sub-skills/architecture-search-space/lesson.md)
+      - references
+        - [Existing controls versus new capabilities](../pages/repositories/vllm/sub-skills/architecture-search-space/references/capability-boundaries.md)
+        - [Runtime and invariants](../pages/repositories/vllm/sub-skills/architecture-search-space/references/runtime-and-invariants.md)
+    - [Extend and validate](../pages/repositories/vllm/sub-skills/extend-validate/lesson.md)
+      - references
+        - [Change boundaries and validation](../pages/repositories/vllm/sub-skills/extend-validate/references/change-boundaries-and-validation.md)
+    - [Operation and performance](../pages/repositories/vllm/sub-skills/operation-performance/lesson.md)
+      - references
+        - [Commands and measurements](../pages/repositories/vllm/sub-skills/operation-performance/references/commands-and-measurements.md)
+        - [Experiment decisions](../pages/repositories/vllm/sub-skills/operation-performance/references/experiment-decisions.md)
+- [Investigate release-specific Ascend performance](../pages/repositories/vllm-ascend/lesson.md)
+  - references
+    - [Resolve DSA-CP, FlashComm and fused MoE communication](../pages/repositories/vllm-ascend/references/communication-config.md)
+    - [DeepSeek-V4 support and performance evolution](../pages/repositories/vllm-ascend/references/deepseek-v4-evolution.md)
+    - [Reconcile DeepSeek-V4-Flash DSpark across prefill and decode](../pages/repositories/vllm-ascend/references/dspark-pd.md)
+    - [Select a fusion by its effective dispatch and oracle](../pages/repositories/vllm-ascend/references/fused-operators.md)
+    - [History scope and verification](../pages/repositories/vllm-ascend/references/history-scope.md)
+    - [Trace MiniMax-M3 cache dtype from configuration to storage](../pages/repositories/vllm-ascend/references/minimax-cache.md)
+    - [Model performance procedures at v0.27.1rc1](../pages/repositories/vllm-ascend/references/model-performance.md)
+    - [Locate a registration failure](../pages/repositories/vllm-ascend/references/plugin-registration.md)
+    - [Release readset](../pages/repositories/vllm-ascend/references/sources.md)
+- [vLLM Metal inference investigation](../pages/repositories/vllm-metal/lesson.md)
+  - references
+    - [Repository and method provenance](../pages/repositories/vllm-metal/references/repo-provenance.md)
+    - [Extraction scope and notices](../pages/repositories/vllm-metal/references/scope-and-notices.md)
+  - sub skills
+    - [Cache capacity, residency and lifetime](../pages/repositories/vllm-metal/sub-skills/cache-lifecycle/lesson.md)
+      - references
+        - [Cache and offload ownership](../pages/repositories/vllm-metal/sub-skills/cache-lifecycle/references/cache-and-offload.md)
+        - [Dense pool ledger helper](../pages/repositories/vllm-metal/sub-skills/cache-lifecycle/references/helper-contract.md)
+        - [Cache and offload troubleshooting](../pages/repositories/vllm-metal/sub-skills/cache-lifecycle/references/troubleshooting.md)
+    - [Platform, configuration and native identity](../pages/repositories/vllm-metal/sub-skills/platform-config/lesson.md)
+      - references
+        - [Configuration namespaces and syntax](../pages/repositories/vllm-metal/sub-skills/platform-config/references/configuration.md)
+        - [Platform and model-loading contracts](../pages/repositories/vllm-metal/sub-skills/platform-config/references/platform-and-loading.md)
+        - [Platform/configuration troubleshooting](../pages/repositories/vllm-metal/sub-skills/platform-config/references/troubleshooting.md)
+    - [Speculation, deferred execution and evidence](../pages/repositories/vllm-metal/sub-skills/qualification/lesson.md)
+      - references
+        - [Executed attention and serving measurement](../pages/repositories/vllm-metal/sub-skills/qualification/references/dispatch-and-measurement.md)
+        - [Offline record helper](../pages/repositories/vllm-metal/sub-skills/qualification/references/record-schema.md)
+        - [Speculative verification and pending-token ownership](../pages/repositories/vllm-metal/sub-skills/qualification/references/speculation-and-pipeline.md)
+        - [Qualification troubleshooting](../pages/repositories/vllm-metal/sub-skills/qualification/references/troubleshooting.md)
+- [vLLM-Omni engine knowledge](../pages/repositories/vllm-omni/lesson.md)
+  - references
+    - [Source evidence](../pages/repositories/vllm-omni/references/evidence.md)
+    - [Provenance](../pages/repositories/vllm-omni/references/repo-provenance.md)
+  - sub skills
+    - [Architecture and search](../pages/repositories/vllm-omni/sub-skills/omni-architecture/lesson.md)
+      - references
+        - [Architecture and constrained search](../pages/repositories/vllm-omni/sub-skills/omni-architecture/references/architecture.md)
+    - [Serving and tuning](../pages/repositories/vllm-omni/sub-skills/omni-serving/lesson.md)
+      - references
+        - [Serving cookbook](../pages/repositories/vllm-omni/sub-skills/omni-serving/references/serving.md)
+    - [Extension and validation](../pages/repositories/vllm-omni/sub-skills/omni-validation/lesson.md)
+      - references
+        - [Audit abort acknowledgment and resource reclamation](../pages/repositories/vllm-omni/sub-skills/omni-validation/references/abort-acknowledgment.md)
+        - [Extension and validation contracts](../pages/repositories/vllm-omni/sub-skills/omni-validation/references/validation.md)
+- vllm rlt
+  - [Audit recurrent KV finalization](../pages/repositories/vllm-rlt/audit-recurrent-kv-finalization/lesson.md)
+    - references
+      - [Pinned vLLM-RLT source observations](../pages/repositories/vllm-rlt/audit-recurrent-kv-finalization/references/source-notes.md)

@@ -416,6 +416,9 @@ def parser() -> argparse.ArgumentParser:
         "knowledge", help="Search or inspect source-grounded imported experience"
     )
     actions = knowledge.add_subparsers(dest="knowledge_action", required=True)
+    from .handbook import add_commands
+
+    add_commands(actions)
     search = actions.add_parser(
         "search",
         help="Search installed package records only; the repo/tier/backend/scenario "

@@ -410,6 +410,10 @@ def main(argv: list[str] | None = None) -> int:
                 _print({"path": str(skill_resource(root, args.name, args.path))})
             return 0
         if args.command == "knowledge":
+            if args.knowledge_action == "handbook":
+                from .handbook import run
+
+                return run(args)
             if args.knowledge_action == "show":
                 _print(get_knowledge(args.id))
             elif args.knowledge_action == "research":

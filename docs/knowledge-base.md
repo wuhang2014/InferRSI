@@ -11,6 +11,13 @@ separate work, not an implemented capability of this knowledge base.
 
 ## Directory and responsibility map
 
+The [inference handbook](../src/inferrsi/knowledge/data/handbook/README.md)
+is a parallel teaching edition of the packaged corpus. Its Markdown pages,
+stable section IDs, reading paths and import receipt live together in
+`data/handbook/`. Use `inferrsi knowledge handbook` to read that edition.
+The catalog, store, skill registry and matrices below retain their existing
+readers and contribution contracts.
+
 ```text
 src/inferrsi/knowledge/data/skill_library/
   README.md                         Library navigation

@@ -1,0 +1,80 @@
+# Hardware
+
+Start with the accelerator or host resource you are investigating.
+
+[All chapters](README.md)
+
+- [Hardware skill navigation](../pages/hardware/overview.md)
+- ascend
+  - [Diagnose Ascend ACLGraph Capture/Replay](../pages/hardware/ascend/ascend-aclgraph-capture-replay/lesson.md)
+    - references
+      - [Source Notes: Ascend ACLGraph Capture/Replay](../pages/hardware/ascend/ascend-aclgraph-capture-replay/references/source-notes.md)
+  - [Ascend Device Health and Pre-Run Verification](../pages/hardware/ascend/ascend-device-health/lesson.md)
+  - [Selecting and validating distributed parallelism](../pages/hardware/ascend/ascend-distributed-parallel/lesson.md)
+    - references
+      - [Ascend communication-test acceptance](../pages/hardware/ascend/ascend-distributed-parallel/references/awesome-ascend-communication-tests.md)
+      - [HCCL multi-rank AllReduce: selection, scratch and completion](../pages/hardware/ascend/ascend-distributed-parallel/references/hccl-allreduce.md)
+  - [Ascend Graph Mode: Configuration, Capture and Replay](../pages/hardware/ascend/ascend-graph-mode/lesson.md)
+    - references
+      - [Historical graph-mode import](../pages/hardware/ascend/ascend-graph-mode/references/legacy-source-notes.md)
+      - [TorchAir configuration to ACL capture/replay: bounded source map](../pages/hardware/ascend/ascend-graph-mode/references/torchair-graph-path.md)
+  - [Ascend Model Adaptation](../pages/hardware/ascend/ascend-model-adaptation/lesson.md)
+    - references
+      - [Source Notes: Ascend Model Adaptation](../pages/hardware/ascend/ascend-model-adaptation/references/source-notes.md)
+  - [Ascend Operator-Level Profiling](../pages/hardware/ascend/ascend-operator-profiling/lesson.md)
+  - [Ascend Operator-Level Tuning](../pages/hardware/ascend/ascend-operator-tuning/lesson.md)
+  - [Ascend NPU Optimization Casebook](../pages/hardware/ascend/ascend-optimization-casebook/lesson.md)
+  - [Ascend NPU Performance Analysis](../pages/hardware/ascend/ascend-performance-analysis/lesson.md)
+    - references
+      - [CannBot fixed-stage evidence acceptance](../pages/hardware/ascend/ascend-performance-analysis/references/cannbot-stage-evidence.md)
+  - [Ascend Video Diffusion Optimization](../pages/hardware/ascend/ascend-video-diffusion-optimization/lesson.md)
+    - references
+      - [Field Notes: Ascend Video Diffusion Optimization](../pages/hardware/ascend/ascend-video-diffusion-optimization/references/field-notes-video-diffusion.md)
+  - [AscendC Tiling Design](../pages/hardware/ascend/ascendc-tiling-design/lesson.md)
+  - [CANN Attribution and Overlap Planning](../pages/hardware/ascend/cann-attribution-overlap/lesson.md)
+  - [TorchNPU device-memory lifecycle](../pages/hardware/ascend/torchnpu-device-memory-lifecycle/lesson.md)
+    - references
+      - [Source notes: TorchNPU device memory](../pages/hardware/ascend/torchnpu-device-memory-lifecycle/references/source-notes.md)
+  - [TorchNPU pinned-host memory lifecycle](../pages/hardware/ascend/torchnpu-pinned-host-memory-lifecycle/lesson.md)
+    - references
+      - [Source notes: TorchNPU pinned-host memory](../pages/hardware/ascend/torchnpu-pinned-host-memory-lifecycle/references/source-notes.md)
+- cuda
+  - [Diagnose attention bottlenecks](../pages/hardware/cuda/diagnose-attention-bottlenecks/lesson.md)
+    - references
+      - [Mechanism extraction: from HBM traffic to execution and precision](../pages/hardware/cuda/diagnose-attention-bottlenecks/references/mechanisms.md)
+      - [Exact sources, readsets and overlap](../pages/hardware/cuda/diagnose-attention-bottlenecks/references/sources.md)
+      - [Pack D: Attention bottlenecks after IO reduction](../pages/hardware/cuda/diagnose-attention-bottlenecks/references/papers-20261015/overview.md)
+        - [Pack D incremental integration proposals](../pages/hardware/cuda/diagnose-attention-bottlenecks/references/papers-20261015/INTEGRATION_NOTES.md)
+        - [Unread leads for a separate next gate](../pages/hardware/cuda/diagnose-attention-bottlenecks/references/papers-20261015/NEXT_GATE_LEADS.md)
+        - cases
+          - [Case D-C1: Fewer HBM transfers can win despite more FLOPs, then plateau](../pages/hardware/cuda/diagnose-attention-bottlenecks/references/papers-20261015/cases/io-reduction-can-plateau.md)
+          - [Case D-C3: More overlap and lower precision need separate acceptance tests](../pages/hardware/cuda/diagnose-attention-bottlenecks/references/papers-20261015/cases/overlap-and-fp8-counter-signals.md)
+          - [Case D-C2: Fusion leaves parallelism and output ownership to solve](../pages/hardware/cuda/diagnose-attention-bottlenecks/references/papers-20261015/cases/partitioning-after-fusion.md)
+        - knowledge
+          - [Knowledge: attention cost-model boundaries](../pages/hardware/cuda/diagnose-attention-bottlenecks/references/papers-20261015/knowledge/attention-cost-model-boundaries.md)
+  - [Host Overhead Profiling](../pages/hardware/cuda/host-overhead-profiling/lesson.md)
+  - [Reason about Hopper kernels](../pages/hardware/cuda/reason-hopper-kernels/lesson.md)
+    - references
+      - [FP8 GEMM: scale, partial-sum and layout contracts](../pages/hardware/cuda/reason-hopper-kernels/references/fp8.md)
+      - [Attribution, licenses and retained distribution discrepancy](../pages/hardware/cuda/reason-hopper-kernels/references/notices.md)
+      - [Hopper resource, layout and scheduling tradeoffs](../pages/hardware/cuda/reason-hopper-kernels/references/resources-and-scheduling.md)
+      - [Source qualification, readset and architecture boundary](../pages/hardware/cuda/reason-hopper-kernels/references/sources.md)
+      - [TMA, mbarrier and WGMMA ownership on Hopper](../pages/hardware/cuda/reason-hopper-kernels/references/synchronization.md)
+      - licenses
+        - [Cutlass Bsd](../pages/hardware/cuda/reason-hopper-kernels/references/licenses/cutlass-bsd.md)
+        - [Deepgemm Mit](../pages/hardware/cuda/reason-hopper-kernels/references/licenses/deepgemm-mit.md)
+        - [Kernelwiki Kda Mit](../pages/hardware/cuda/reason-hopper-kernels/references/licenses/kernelwiki-kda-mit.md)
+- host
+  - [Cgroup v2 Resource Controls](../pages/hardware/host/cgroup-resource-controls/lesson.md)
+  - [Host Memory Management](../pages/hardware/host/host-memory-management/lesson.md)
+    - references
+      - [Retained historical source links](../pages/hardware/host/host-memory-management/references/legacy-source-notes.md)
+      - [PyTorch pinned host buffers and CUDA copy ownership](../pages/hardware/host/host-memory-management/references/pytorch-host-copy.md)
+      - [Ascend native offload: CPU descriptor ownership](../pages/hardware/host/host-memory-management/references/vllm-ascend-native-offload.md)
+  - [Host Overhead Optimization](../pages/hardware/host/host-overhead-optimization/lesson.md)
+    - references
+      - [Case: zero-overhead scheduling in DeepInfer](../pages/hardware/host/host-overhead-optimization/references/deepinfer-zero-overhead-scheduling.md)
+  - [OS-Level Process Placement and Runtime Configuration](../pages/hardware/host/os-process-placement/lesson.md)
+    - references
+      - [llama.cpp NUMA and thread provenance](../pages/hardware/host/os-process-placement/references/llama-numa-thread-readset.md)
+  - [Storage I/O Measurement](../pages/hardware/host/storage-io-measurement/lesson.md)

@@ -1,0 +1,117 @@
+<!-- handbook
+{
+  "id": "hardware/overview",
+  "kind": "guide"
+}
+-->
+
+# Hardware skill navigation
+
+> [Source](../../../skill_library/hardware/README.md) · [Parent reading](../library/overview.md)
+
+The existing **22 registered owners** comprise 14 Ascend, 3 CUDA and 5 host
+skills. Start with the question below, then read the selected procedure,
+`metadata.json` and its source references. All 22 remain **candidate** with
+empirical validation **not_run**.
+
+The [source inventory](../../../skill_library/hardware/source-inventory.json) describes the evidence actually
+retained by each owner: source channel, inspection depth, revision precision,
+recorded reading date, license qualifications and gaps. It is a static
+navigation aid, not another registry or coverage matrix. The
+[Reference Matrix](https://github.com/InferMatrixLab/InferRSI/blob/main/docs/reference-matrix.md)
+and [SearchSpace Matrix](https://github.com/InferMatrixLab/InferRSI/blob/main/docs/searchspace-matrix.md)
+retain source and coverage authority.
+
+<a id="unit-read-the-source-depth-correctly"></a>
+## Read the source depth correctly
+
+A **direct implementation read** covers the cited paths/ranges only; wrapper,
+callback and test code do not establish the native implementation they call.
+An **upstream skill/document import** retains instructions or reported results,
+even when its source is a code repository. A **mirror** preserves a copy's
+lineage and license limits, not independent corroboration. A **supplied pack**
+may contain a substantive implementation or paper readset, but its supplier's
+reading date is not a fresh local reread.
+
+This inventory reviews local records on 2026-10-30 and performs no new upstream
+reads. Historical prefixes, unknown dates/licenses and independent source
+versions remain explicit. A resolved full SHA or a whole-file hash proves
+identity, not full semantic inspection. The 2026-10-30 PyTorch/CPython, TorchAir
+and native HCCL readsets are distinct from older supplier/Ascend evidence,
+mirrored imports and unrevalidated links. Source and package checks establish no
+measured gain, compatible combined stack or new empirical coverage.
+
+<a id="unit-ascend"></a>
+## Ascend
+
+| Question / owner | Retained source depth and principal boundary |
+| --- | --- |
+| [ACLGraph capture/replay](ascend/ascend-aclgraph-capture-replay/lesson.md) | Supplied bounded vLLM-Ascend wrapper/docs/test readset; caller ownership and other runtime owners remain separate |
+| [Device health](ascend/ascend-device-health/lesson.md) | MindIE-SD and profiling skill guidance; environment observations are not a driver audit |
+| [Distributed parallelism](ascend/ascend-distributed-parallel/lesson.md) | Inherited strategy documents and wrapper tests, plus a separate direct HCCL multi-rank AICPU mesh AllReduce read; HCOMM/ACL transport/runtime bodies and other routes uninspected |
+| [Graph-mode configuration](ascend/ascend-graph-mode/lesson.md) | Direct pinned TorchAir Python config-to-capture/replay and input/output lifetime readset; historical mirror retained separately, native TorchNPU/CANN bodies uninspected |
+| [Model adaptation](ascend/ascend-model-adaptation/lesson.md) | Historical vLLM-Ascend lesson documents; separate from the newer ACLGraph wrapper pin |
+| [Operator profiling](ascend/ascend-operator-profiling/lesson.md) | Imported mirrored profiling procedure; named summary helper is not bundled |
+| [Operator tuning](ascend/ascend-operator-tuning/lesson.md) | Mirrored PyPTO skill/playbook distillation; reported analyzer behavior and cases are not native validation |
+| [Optimization casebook](ascend/ascend-optimization-casebook/lesson.md) | Upstream skill-derived cases and inferences; no independent local reruns |
+| [Performance analysis](ascend/ascend-performance-analysis/lesson.md) | MindIE-SD guidance plus direct CannBot workflow/callback/helper reads; callback completion is not numerical evidence |
+| [Video diffusion](ascend/ascend-video-diffusion-optimization/lesson.md) | First-hand workflow/field notes, explicitly non-reproducible as published |
+| [AscendC tiling](ascend/ascendc-tiling-design/lesson.md) | Mirrored skill/reference distillation; chip-specific formulas and unwritten operator classes retain their limits |
+| [CANN attribution and overlap](ascend/cann-attribution-overlap/lesson.md) | Supplied skill/reference/script pack; import and later revisions remain separate, original lineage equivalence unknown |
+| [TorchNPU device memory](ascend/torchnpu-device-memory-lifecycle/lesson.md) | Supplied bounded allocator/caller/docs/test readset; device HBM only |
+| [TorchNPU pinned host memory](ascend/torchnpu-pinned-host-memory-lifecycle/lesson.md) | Supplied bounded host allocator/copy/docs/test readset; base-ATen and external-owner boundaries remain open |
+
+<a id="unit-cuda"></a>
+## CUDA
+
+| Question / owner | Retained source depth and principal boundary |
+| --- | --- |
+| [Attention bottlenecks](cuda/diagnose-attention-bottlenecks/lesson.md) | Supplied versioned FlashAttention paper readset; linked implementations were not opened |
+| [Host-overhead profiling](cuda/host-overhead-profiling/lesson.md) | TensorRT-LLM skill methodology; named analysis scripts/reference are not bundled |
+| [Hopper kernel reasoning](cuda/reason-hopper-kernels/lesson.md) | KernelWiki header/body screening plus selected direct DeepGEMM/CUTLASS and NVIDIA document reads; unmined bodies, architecture exclusions and license discrepancies stay explicit |
+
+<a id="unit-host"></a>
+## Host
+
+| Question / owner | Retained source depth and principal boundary |
+| --- | --- |
+| [Cgroup resource controls](host/cgroup-resource-controls/lesson.md) | Supplied Linux interface-document research; rolling-page revision and target-system behavior remain unknown |
+| [Host memory and transfers](host/host-memory-management/lesson.md) | Direct pinned PyTorch copy/allocator readset, CPython documentation and separate Ascend descriptor case; historical links retained only as lineage |
+| [Host-overhead optimization](host/host-overhead-optimization/lesson.md) | TensorRT-LLM skill import plus bounded DeepInfer code case and method-owned paper guidance; local case is linked despite an empty sidecar readset list |
+| [OS process placement](host/os-process-placement/lesson.md) | Historical skill/configuration guidance plus a direct llama.cpp NUMA/thread readset; no optimal affinity or thread count demonstrated |
+| [Storage I/O measurement](host/storage-io-measurement/lesson.md) | Supplied fio/sysstat documentation and job-example research; no tool-engine or loader implementation audit |
+
+Directory placement describes ownership, not portability. Host RAM and device
+HBM are different domains; H2D, IPC and local stream ordering do not establish
+Network coverage. Read mixed-source licenses per slice: an outer README license
+does not clear a mirrored UNKNOWN declaration or a third-party payload.
+
+<a id="unit-related-evidence-with-other-owners"></a>
+## Related evidence with other owners
+
+Hardware questions can cross framework, dependency and repository boundaries.
+Follow the existing owner below for its complete procedure, pinned evidence and
+validation limits. These links add no owner, source read or compatibility result
+to the 22-owner inventory.
+
+| Need | Existing owner and retained boundary |
+| --- | --- |
+| PyTorch compiler graphs or distributed checkpoint staging | [Compiler/DCP scope routing](../library/overview.md#unit-pytorch-compiler-and-checkpoint-scope-routing) keeps the compiler dependency card and [DCP async-save procedure](../frameworks/pytorch/dcp-async-save-performance/lesson.md) at separate pins. Their graph-output and staging/upload lifetimes do not substitute for the host-copy owner above. |
+| FlashInfer paged-decode dispatch and graph buffers | [FlashInfer dependency card](../records/dependency/flashinfer/cuda/llm/paged-decode-dispatch.md) retains a bounded README/`decode.py` extraction, imported and locally unverified. It establishes no full kernel audit or diffusion/NPU support. |
+| Triton fused-softmax resource limits or kernel implementation practice | [Triton dependency card](../records/dependency/triton/common/kernel/bandwidth-fusion-resource-limits.md) retains one tutorial extraction; [kernel-writing-guide](../methods/kernel-writing-guide/lesson.md) owns the separate writing/verification procedure and caller-specific source cases. Neither is whole-compiler or native-backend qualification. |
+| Apple Metal and MLX execution, caches or model paths | [MLX evaluation/lifetimes](../frameworks/mlx/lazy-evaluation-stream-lifetimes/lesson.md), [vLLM Metal](../repositories/vllm-metal/lesson.md), [Lithos Metal](../repositories/lithos-metal/lesson.md) and [H3 Metal](../repositories/h3-metal/audit-h3-metal-fasth3-semantics/lesson.md) retain their own source and model boundaries. Unified memory does not merge host/device ownership or establish a compatible combined stack; native/model/service checks remain owner-specific. |
+
+<a id="unit-maintain-this-view"></a>
+## Maintain this view
+
+Keep complete procedures and source ledgers with their existing owners. Update
+only the affected inventory row and navigation when evidence changes; preserve
+original inspection dates, unknowns and candidate states. Do not turn source
+counts into quality scores, replace the two matrices, or duplicate full
+readsets here. Use the [library entry](../library/overview.md) for discovery and packaging
+contracts.
+
+<a id="unit-source-files"></a>
+## Source files
+
+- [source-inventory.json](../../../skill_library/hardware/source-inventory.json)

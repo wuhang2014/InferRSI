@@ -169,6 +169,7 @@ def test_stale_head_and_unsupported_schema_fail():
 
 
 @pytest.mark.parametrize("path", [
+    "src/inferrsi/knowledge/data/handbook/pages/foundations/reading-a-timer.md",
     "src/inferrsi/knowledge/data/skill_library/methods/example/SKILL.md",
     "src/inferrsi/knowledge/data/skill_library/skill-index.json",
     "src/inferrsi/knowledge/data/knowledge_packs/peer/example/case.json", KNOWLEDGE,
